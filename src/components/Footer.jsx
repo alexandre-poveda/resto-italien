@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, MapPin, Phone, Mail, Compass } from 'lucide-react';
+import { ArrowUpRight, MapPin, Phone, Mail } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/restaurantData';
 
 export default function Footer({ navigate }) {
@@ -23,10 +23,6 @@ export default function Footer({ navigate }) {
         {/* Big Sea Farewell Banner */}
         <div className="border-b border-[#FFF9EF]/15 pb-16 mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
-            <div className="flex items-center gap-2 text-[#E94B35] font-sans text-xs tracking-widest uppercase font-bold mb-3">
-              <Compass className="w-4 h-4 animate-spin" style={{ animationDuration: '12s' }} />
-              <span>43°17’48”N · 5°22’13”E · Marseille</span>
-            </div>
             <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#FFF9EF] uppercase leading-[0.95]">
               À TRÈS VITE<br />
               <span className="italic font-normal text-[#F4E6A8]">AU BORD DE L'EAU.</span>
@@ -131,16 +127,6 @@ export default function Footer({ navigate }) {
                   <ArrowUpRight className="w-3 h-3 text-[#FFF9EF]/40" />
                 </a>
               </li>
-              <li>
-                <a
-                  href="/gestionnaire"
-                  onClick={(e) => handleNav(e, '/gestionnaire')}
-                  className="hover:text-[#E94B35] transition-colors inline-flex items-center gap-1.5 text-[#F4E6A8]/80"
-                >
-                  <span>Espace Gestionnaire</span>
-                  <ArrowUpRight className="w-3 h-3 text-[#F4E6A8]/40" />
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -204,10 +190,19 @@ export default function Footer({ navigate }) {
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#FFF9EF]/40 font-sans">
           <p>© {new Date().getFullYear()} Santo Mare — Marseille, France. Tous droits réservés.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center gap-5 sm:gap-6">
             <span className="hover:text-[#FFF9EF] cursor-pointer">Mentions Légales</span>
+            <span className="text-[#FFF9EF]/20 hidden sm:inline">•</span>
+            <a
+              href="/gestionnaire"
+              onClick={(e) => handleNav(e, '/gestionnaire')}
+              className="hover:text-[#E94B35] text-[#FFF9EF]/60 transition-colors cursor-pointer"
+            >
+              Espace Gestionnaire
+            </a>
             <span className="hover:text-[#FFF9EF] cursor-pointer">Politique de Confidentialité</span>
-            <span className="hover:text-[#FFF9EF] cursor-pointer">Presse & Événements</span>
+            <span className="text-[#FFF9EF]/20 hidden sm:inline">•</span>
+            <span className="hover:text-[#FFF9EF] cursor-pointer">Presse et Événements</span>
           </div>
         </div>
       </div>

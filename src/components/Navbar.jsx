@@ -162,19 +162,6 @@ export default function Navbar({ currentPath, navigate }) {
                   <ArrowUpRight className="w-5 h-5 text-[#2B211D]/40" />
                 </a>
               ))}
-              <a
-                href="/gestionnaire"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setMobileMenuOpen(false);
-                  navigate('/gestionnaire');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="font-serif text-xl text-[#E94B35] hover:underline flex items-center justify-between pt-2 border-t border-[#2B211D]/10"
-              >
-                <span>Espace Gestionnaire</span>
-                <ArrowUpRight className="w-4 h-4 text-[#E94B35]" />
-              </a>
             </div>
 
             <div className="pt-4">

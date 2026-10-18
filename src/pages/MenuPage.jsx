@@ -193,9 +193,6 @@ export default function MenuPage({ navigate }) {
       {/* Bottom Reservation Callout */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 text-center">
         <div className="bg-[#2B211D] text-[#FFF9EF] p-10 sm:p-14 rounded-3xl shadow-xl">
-          <span className="text-xs uppercase font-bold tracking-widest text-[#E94B35] block mb-2">
-            Une Table Vous Attend
-          </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase">
             La Bonne Cuisine Mérite une Belle Table.
           </h2>

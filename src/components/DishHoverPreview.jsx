@@ -45,9 +45,9 @@ export default function DishHoverPreview({ activeDish }) {
   if (!isVisible && !activeDish) return null;
 
   // Compute offset to keep inside viewport
-  const previewWidth = 280;
-  const previewHeight = 330;
-  const offsetX = 28;
+  const previewWidth = 380;
+  const previewHeight = 440;
+  const offsetX = 32;
   const offsetY = -previewHeight / 2;
 
   let leftPos = coords.x + offsetX;
@@ -77,9 +77,9 @@ export default function DishHoverPreview({ activeDish }) {
         willChange: 'transform, left, top',
       }}
     >
-      <div className="bg-[#FFF9EF] p-2.5 rounded-2xl shadow-2xl border-2 border-[#2B211D]/15 w-[280px] overflow-hidden backdrop-blur-md">
+      <div className="bg-[#FFF9EF] p-4 rounded-3xl shadow-2xl border-2 border-[#2B211D]/20 w-[380px] overflow-hidden backdrop-blur-md">
         {/* Dish image container */}
-        <div className="relative w-full h-[190px] rounded-xl overflow-hidden bg-[#2B211D]/5">
+        <div className="relative w-full h-[230px] rounded-2xl overflow-hidden bg-[#2B211D]/5 shadow-inner">
           <img
             src={activeDish?.image}
             alt={activeDish?.name}
@@ -87,30 +87,30 @@ export default function DishHoverPreview({ activeDish }) {
             loading="eager"
           />
           {activeDish?.tags && activeDish.tags.length > 0 && (
-            <span className="absolute top-2.5 left-2.5 bg-[#E94B35] text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+            <span className="absolute top-2.5 left-2.5 bg-[#E94B35] text-white text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-md">
               {activeDish.tags[0]}
             </span>
           )}
-          <span className="absolute bottom-2.5 right-2.5 bg-[#2B211D]/90 text-white font-serif text-xs font-bold px-2.5 py-0.5 rounded-full backdrop-blur-xs">
+          <span className="absolute bottom-2.5 right-2.5 bg-[#2B211D]/90 text-white font-serif text-base font-bold px-3.5 py-1 rounded-full shadow-lg">
             {activeDish?.price} €
           </span>
         </div>
 
         {/* Dish meta info */}
-        <div className="p-2.5 pt-3">
-          <span className="text-[10px] uppercase font-sans tracking-widest text-[#E94B35] font-bold block mb-0.5">
+        <div className="pt-3.5 px-1">
+          <span className="text-xs uppercase font-sans tracking-widest text-[#E94B35] font-bold block mb-1">
             {activeDish?.courseName}
           </span>
-          <h4 className="font-serif text-sm font-bold text-[#2B211D] leading-snug line-clamp-1">
+          <h4 className="font-serif text-2xl font-bold text-[#2B211D] leading-snug">
             {activeDish?.name}
           </h4>
-          <p className="text-[11px] text-[#2B211D]/70 font-sans line-clamp-2 mt-1 leading-normal">
+          <p className="text-sm text-[#2B211D]/80 font-sans mt-2 leading-relaxed">
             {activeDish?.description}
           </p>
           {activeDish?.pairing && (
-            <div className="mt-2 pt-2 border-t border-[#2B211D]/10 flex items-center justify-between text-[10px] text-[#2B211D]/60">
+            <div className="mt-3 pt-3 border-t border-[#2B211D]/12 flex items-center justify-between text-xs text-[#697348] font-medium">
               <span className="italic">Accord conseillé :</span>
-              <span className="font-semibold text-[#2B211D]">{activeDish.pairing}</span>
+              <strong className="text-[#2B211D] font-serif text-sm">{activeDish.pairing}</strong>
             </div>
           )}
         </div>

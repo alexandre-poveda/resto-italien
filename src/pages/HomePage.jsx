@@ -155,9 +155,6 @@ export default function HomePage({ navigate }) {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
             <div>
-              <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-                Édition Nº 03 · Carte Saisonnière
-              </span>
               <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-[#2B211D]">
                 Les Plats de Saison.
               </h2>
@@ -459,11 +456,11 @@ export default function HomePage({ navigate }) {
               <div className="pt-4 grid grid-cols-2 gap-6 border-t border-[#2B211D]/10">
                 <div>
                   <span className="font-serif text-3xl font-bold text-[#E94B35]">100%</span>
-                  <p className="text-xs text-[#2B211D]/70 font-sans mt-0.5">Pêche artisanale & maraîchage bio de Provence</p>
+                  <p className="text-xs text-[#2B211D]/70 font-sans mt-0.5">Pêche artisanale et maraîchage bio de Provence</p>
                 </div>
                 <div>
                   <span className="font-serif text-3xl font-bold text-[#697348]">80+</span>
-                  <p className="text-xs text-[#2B211D]/70 font-sans mt-0.5">Références de vins vivants & cuvées nature</p>
+                  <p className="text-xs text-[#2B211D]/70 font-sans mt-0.5">Références de vins vivants et cuvées nature</p>
                 </div>
               </div>
             </div>
@@ -581,7 +578,7 @@ export default function HomePage({ navigate }) {
             </div>
             <div className="p-6 rounded-2xl bg-[#FFF9EF]/5 border border-[#FFF9EF]/10 hover:border-[#E94B35] transition-colors">
               <Wine className="w-6 h-6 text-[#697348] mb-3" />
-              <h3 className="font-serif text-xl font-bold text-[#FFF9EF]">Apéritifs & Amari</h3>
+              <h3 className="font-serif text-xl font-bold text-[#FFF9EF]">Apéritifs et Amari</h3>
               <p className="text-xs text-[#FFF9EF]/60 font-sans mt-1">Spritz Santo, Pastis Henri Bardouin et Negroni.</p>
             </div>
           </div>
@@ -657,7 +654,7 @@ export default function HomePage({ navigate }) {
                       <strong className="block text-[#2B211D] text-base">Horaires d'Ouverture</strong>
                       <div className="text-xs text-[#2B211D]/75 space-y-0.5 mt-0.5">
                         <p><strong className="text-[#2B211D]">Mardi — Jeudi :</strong> 12h00 — 00h00 (Service continu)</p>
-                        <p><strong className="text-[#2B211D]">Vendredi — Samedi :</strong> 12h00 — 01h30 (Dîner festif & DJ)</p>
+                        <p><strong className="text-[#2B211D]">Vendredi — Samedi :</strong> 12h00 — 01h30 (Dîner festif et DJ)</p>
                         <p><strong className="text-[#2B211D]">Dimanche :</strong> 12h00 — 23h00 · <span className="italic text-[#E94B35]">Lundi fermé (Retour de pêche)</span></p>
                       </div>
                     </div>
