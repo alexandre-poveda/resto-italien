@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Eye, Utensils } from 'lucide-react';
-import { MENU_CATEGORIES, MENU_ITEMS } from '../data/restaurantData';
+import { MENU_CATEGORIES } from '../data/restaurantData';
+import { getStoredMenu } from '../data/storage';
 import DishHoverPreview from '../components/DishHoverPreview';
 
 export default function MenuPage({ navigate }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [menuItems, setMenuItems] = useState(() => getStoredMenu());
   const [activeDish, setActiveDish] = useState(null);
   const [mobileModalDish, setMobileModalDish] = useState(null);
 
+  // Sync menu from localStorage and listen to updates
+  useEffect(() => {
+    const handleUpdate = () => {
+      setMenuItems(getStoredMenu());
+    };
+    window.addEventListener('santo_data_updated', handleUpdate);
+    return () => window.removeEventListener('santo_data_updated', handleUpdate);
+  }, []);
+
   // Check URL params for pre-selected category (e.g. from "Voir la carte des vins")
   useEffect(() => {
-    const checkParams = () => {
-      const params = new URLSearchParams(window.location.search);
-      const catParam = params.get('category');
-      if (catParam && MENU_CATEGORIES.some((c) => c.id === catParam)) {
-        setSelectedCategory(catParam);
-        setTimeout(() => {
-          const el = document.getElementById(catParam);
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
-      }
-    };
-    checkParams();
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('category');
+    if (catParam && MENU_CATEGORIES.some((c) => c.id === catParam)) {
+      setSelectedCategory(catParam);
+    }
   }, []);
 
   const handleCategorySelect = (catId) => {
     setSelectedCategory(catId);
-    if (catId !== 'all') {
-      setTimeout(() => {
-        const el = document.getElementById(catId);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    }
   };
 
   // Categories to display
@@ -65,8 +63,8 @@ export default function MenuPage({ navigate }) {
             const isSelected = selectedCategory === cat.id;
             const count =
               cat.id === 'all'
-                ? MENU_ITEMS.length
-                : MENU_ITEMS.filter((d) => d.courseId === cat.id).length;
+                ? menuItems.length
+                : menuItems.filter((d) => d.courseId === cat.id).length;
 
             return (
               <button
@@ -95,7 +93,7 @@ export default function MenuPage({ navigate }) {
       {/* Menu Categories & Dish Listing */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 space-y-20">
         {categoriesToRender.map((cat) => {
-          const categoryDishes = MENU_ITEMS.filter((d) => d.courseId === cat.id);
+          const categoryDishes = menuItems.filter((d) => d.courseId === cat.id);
           if (categoryDishes.length === 0) return null;
 
           return (

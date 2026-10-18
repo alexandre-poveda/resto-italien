@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
 import BookTablePage from './pages/BookTablePage';
 import PrivateDiningPage from './pages/PrivateDiningPage';
+import ManagerPage from './pages/ManagerPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
@@ -51,6 +52,8 @@ export default function App() {
     PageComponent = BookTablePage;
   } else if (basePath === '/private-dining') {
     PageComponent = PrivateDiningPage;
+  } else if (basePath === '/gestionnaire' || basePath === '/gestion') {
+    PageComponent = ManagerPage;
   } else {
     PageComponent = NotFoundPage;
   }

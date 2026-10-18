@@ -68,12 +68,12 @@ export default function Navbar({ currentPath, navigate }) {
                 navigate('/');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="group flex flex-col cursor-pointer"
+              className="group flex flex-col items-center text-center cursor-pointer"
             >
-              <span className="font-serif text-2xl sm:text-3xl tracking-wider text-[#2B211D] font-bold group-hover:text-[#E94B35] transition-colors">
+              <span className="font-serif text-2xl sm:text-3xl tracking-wider text-[#2B211D] font-bold group-hover:text-[#E94B35] transition-colors text-center block">
                 SANTO MARE
               </span>
-              <span className="text-[10px] tracking-widest text-[#2B211D]/70 uppercase font-sans font-medium -mt-1">
+              <span className="text-[10px] tracking-widest text-[#2B211D]/70 uppercase font-sans font-medium -mt-1 text-center block w-full">
                 Cuisine Côtière · Marseille
               </span>
             </a>
@@ -103,8 +103,18 @@ export default function Navbar({ currentPath, navigate }) {
             })}
           </nav>
 
-          {/* Desktop Action Button */}
+          {/* Desktop Action Button & Gestionnaire */}
           <div className="hidden md:flex items-center gap-3 shrink-0 ml-8 lg:ml-12">
+            <button
+              onClick={() => {
+                navigate('/gestionnaire');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3 py-2 text-xs font-semibold text-[#2B211D]/60 hover:text-[#E94B35] hover:bg-[#2B211D]/5 rounded-full transition-colors flex items-center gap-1.5"
+              title="Accéder à l'espace gestionnaire pour modifier la carte et les événements"
+            >
+              <span>Gestion</span>
+            </button>
             <button
               onClick={() => {
                 navigate('/book-a-table');
@@ -162,6 +172,19 @@ export default function Navbar({ currentPath, navigate }) {
                   <ArrowUpRight className="w-5 h-5 text-[#2B211D]/40" />
                 </a>
               ))}
+              <a
+                href="/gestionnaire"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  navigate('/gestionnaire');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="font-serif text-xl text-[#E94B35] hover:underline flex items-center justify-between pt-2 border-t border-[#2B211D]/10"
+              >
+                <span>Espace Gestionnaire</span>
+                <ArrowUpRight className="w-4 h-4 text-[#E94B35]" />
+              </a>
             </div>
 
             <div className="pt-4">

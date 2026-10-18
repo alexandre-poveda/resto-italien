@@ -1,83 +1,141 @@
-import React, { useState } from 'react';
-import { ArrowUpRight, Clock, Wine, MapPin, Calendar } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowUpRight, Clock, Wine, MapPin, Calendar, Info, X, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import Marquee from '../components/Marquee';
-import { RESTAURANT_INFO, SIGNATURE_DISHES, ATMOSPHERE_MOODS, EVENTS } from '../data/restaurantData';
+import { RESTAURANT_INFO, SIGNATURE_DISHES, ATMOSPHERE_MOODS } from '../data/restaurantData';
+import { getStoredEvents } from '../data/storage';
+
+const STORY_PHOTOS = [
+  {
+    url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1000&q=80',
+    title: 'La Terrasse Maritime',
+    sub: 'Face aux mâts du Vieux-Port, à l\'ombre des canisses'
+  },
+  {
+    url: 'https://framerusercontent.com/images/enKz7ixDbNy06JOGJ0baMIv5woc.jpg',
+    title: 'La Cuisine Ouverte',
+    sub: 'Préparation minute, feu de bois et gestes précis'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?auto=format&fit=crop&w=1000&q=80',
+    title: 'Le Retour de Pêche',
+    sub: 'Arrivage direct chaque matin des bateaux marseillais'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=80',
+    title: 'Pâtes Façonnées au Bronze',
+    sub: 'Laminage à la main et semoule de blé dur sélectionnée'
+  },
+  {
+    url: 'https://framerusercontent.com/images/ouXh6dXR1Y8fR9D4dBboTNgMZM.jpg',
+    title: 'La Grande Tablée',
+    sub: 'Convivialité méditerranéenne et partage'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1000&q=80',
+    title: 'La Cave Vivante',
+    sub: 'Plus de 80 flacons de vignerons naturels et biodynamiques'
+  }
+];
 
 export default function HomePage({ navigate }) {
   const [activeMoodIndex, setActiveMoodIndex] = useState(0);
   const [activePlateIndex, setActivePlateIndex] = useState(0);
+  const [events, setEvents] = useState(() => getStoredEvents());
+  const [selectedEventModal, setSelectedEventModal] = useState(null);
+  const [storyPhotoIndex, setStoryPhotoIndex] = useState(0);
+  const [isStoryHovered, setIsStoryHovered] = useState(false);
+
+  // Sync events from localStorage
+  useEffect(() => {
+    const handleUpdate = () => {
+      setEvents(getStoredEvents());
+    };
+    window.addEventListener('santo_data_updated', handleUpdate);
+    return () => window.removeEventListener('santo_data_updated', handleUpdate);
+  }, []);
+
+  // Auto-cycle story photos
+  useEffect(() => {
+    if (isStoryHovered) return;
+    const interval = setInterval(() => {
+      setStoryPhotoIndex((prev) => (prev + 1) % STORY_PHOTOS.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isStoryHovered]);
 
   const activeMood = ATMOSPHERE_MOODS[activeMoodIndex];
   const activePlate = SIGNATURE_DISHES[activePlateIndex];
 
   return (
     <div className="pt-20 sm:pt-24 overflow-hidden">
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION (Side-by-side with wide text on left and coastal sea restaurant photo on right) */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 pb-16 sm:pb-24 border-b border-[#2B211D]/10">
         <div className="max-w-7xl mx-auto">
-          {/* Big Poetic Headline */}
-          <div className="pb-8 sm:pb-10 max-w-5xl">
-            <div className="inline-block mb-3 text-xs tracking-[0.25em] uppercase font-bold text-[#E94B35]">
-              Marseille · Trattoria & Bistrot de Mer
-            </div>
-            <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight uppercase text-[#2B211D] leading-[0.92]">
-              BONNE TABLE.<br />
-              <span className="text-[#E94B35]">VINS VIVANTS.</span><br />
-              <span className="italic font-normal text-[#2B211D]/80">SOIRÉES INFINIES.</span>
-            </h1>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            {/* Left Column: Huge Title, Poetic Subtext & Actions */}
+            <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center">
+              <div className="inline-block mb-3 text-xs tracking-[0.25em] uppercase font-bold text-[#E94B35]">
+                Marseille · Trattoria & Bistrot de Mer
+              </div>
+              <h1 className="font-serif text-5xl sm:text-7xl lg:text-7xl xl:text-8xl font-bold tracking-tight uppercase text-[#2B211D] leading-[0.92]">
+                BONNE TABLE.<br />
+                <span className="text-[#E94B35]">VINS VIVANTS.</span><br />
+                <span className="italic font-normal text-[#2B211D]/80">SOIRÉES INFINIES.</span>
+              </h1>
 
-          {/* Subtext and Action Buttons */}
-          <div className="max-w-2xl pt-2 pb-6">
-            <p className="font-sans text-base sm:text-xl text-[#2B211D]/80 leading-relaxed font-normal">
-              {RESTAURANT_INFO.tagline}
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <button
-                onClick={() => {
-                  navigate('/book-a-table');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="inline-flex items-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-transform hover:-translate-y-0.5 active:translate-y-0 shadow-md"
-              >
-                <span>Réserver une table</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => {
-                  navigate('/menu');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-7 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors"
-              >
-                <span>Découvrir le menu</span>
-                <ArrowUpRight className="w-4 h-4 text-[#2B211D]/60" />
-              </button>
-            </div>
-          </div>
+              <p className="font-sans text-base sm:text-xl text-[#2B211D]/80 leading-relaxed font-normal mt-6 max-w-xl">
+                {RESTAURANT_INFO.tagline}
+              </p>
 
-          {/* Large Hero Photography Frame */}
-          <div className="mt-8 sm:mt-12 relative rounded-3xl overflow-hidden aspect-[16/9] sm:aspect-[21/9] shadow-xl border border-[#2B211D]/15 group">
-            <img
-              src="https://framerusercontent.com/images/3aSiJ6lXiGAmTM2hZcKOEo6eyoM.jpg"
-              alt="Table dressée au bord de la mer Méditerranée au restaurant Santo Mare"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/80 via-transparent to-transparent flex items-end p-6 sm:p-10">
-              <div className="text-white max-w-xl">
-                <span className="text-xs uppercase tracking-widest font-bold text-[#F4E6A8] mb-1 block">
-                  Bistrot Marin & Bar à Vins Vivants
-                </span>
-                <p className="font-serif text-xl sm:text-2xl font-bold leading-tight">
-                  "L'air salin du large, la chaleur du feu de bois et les rires qui résonnent sur le quai."
-                </p>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <button
+                  onClick={() => {
+                    navigate('/book-a-table');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-transform hover:-translate-y-0.5 active:translate-y-0 shadow-md cursor-pointer"
+                >
+                  <span>Réserver une table</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/menu');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-7 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors cursor-pointer"
+                >
+                  <span>Découvrir le menu</span>
+                  <ArrowUpRight className="w-4 h-4 text-[#2B211D]/60" />
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Coastal Restaurant with Sea View Frame */}
+            <div className="lg:col-span-5 xl:col-span-5">
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl border border-[#2B211D]/15 group">
+                <img
+                  src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80"
+                  alt="Restaurant côtier en terrasse au bord de la mer Méditerranée"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/85 via-[#2B211D]/20 to-transparent flex items-end p-6 sm:p-8">
+                  <div className="text-white">
+                    <span className="text-[11px] uppercase tracking-widest font-bold text-[#F4E6A8] mb-1.5 block">
+                      Terrasse Côtière · Vieux-Port de Marseille
+                    </span>
+                    <p className="font-serif text-lg sm:text-xl font-bold leading-snug">
+                      "L'air salin du large, la chaleur du feu de bois et les rires qui résonnent sur le quai."
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. LES PLATS DE SAISON (SINGLE INTERACTIVE SHOWCASE) */}
+      {/* 2. LES PLATS DE SAISON */}
       <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
@@ -98,9 +156,9 @@ export default function HomePage({ navigate }) {
                 navigate('/menu');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-colors group"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-colors group cursor-pointer"
             >
-              <span>Voir toute la carte saisonnière</span>
+              <span>Voir toute la carte</span>
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
           </div>
@@ -145,9 +203,8 @@ export default function HomePage({ navigate }) {
               })}
             </div>
 
-            {/* Right Plate Display with Cutout physics */}
+            {/* Right Plate Display */}
             <div className="lg:col-span-7 flex flex-col items-center justify-center p-8 sm:p-12 bg-[#FFF9EF] rounded-3xl border border-[#2B211D]/15 shadow-inner relative overflow-hidden min-h-[440px]">
-              {/* Subtle background radial glow */}
               <div className="absolute w-[360px] h-[360px] rounded-full bg-[#F4E6A8]/40 blur-3xl pointer-events-none"></div>
 
               {/* Floating Plate Cutout */}
@@ -177,7 +234,7 @@ export default function HomePage({ navigate }) {
                       navigate('/menu');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="inline-flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider text-[#E94B35] hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider text-[#E94B35] hover:underline cursor-pointer"
                   >
                     <span>Commander dans le menu</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -192,14 +249,11 @@ export default function HomePage({ navigate }) {
       {/* 3. SLOW & LEISURELY MARQUEE BANNER */}
       <Marquee text="PÊCHE DU MATIN ★ PÂTES FRAÎCHES FAÇONNÉES AU BRONZE ★ VINS VIVANTS & NATURELS ★ APÉRITIVO ITALIEN ★ BELLES NUITS FACE À LA MER ★ HUILE D'OLIVE VIERGE EXTRA ★" />
 
-      {/* 4. ATMOSPHERE · 3 AMBIANCES */}
+      {/* 4. UN LIEU. TROIS MOMENTS DE VIE (Orange "Atmosphère" removed) */}
       <section id="atmosphere" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
             <div>
-              <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-                Atmosphère
-              </span>
               <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
                 Un Lieu. Trois Moments de Vie.
               </h2>
@@ -259,7 +313,7 @@ export default function HomePage({ navigate }) {
                     navigate('/book-a-table');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-2 bg-[#2B211D] hover:bg-[#E94B35] text-white px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors"
+                  className="inline-flex items-center gap-2 bg-[#2B211D] hover:bg-[#E94B35] text-white px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
                 >
                   <span>Réserver ce moment</span>
                   <ArrowUpRight className="w-4 h-4" />
@@ -270,7 +324,7 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 5. WHAT'S ON / CE SOIR AU SANTO */}
+      {/* 5. AGENDA & VIE NOCTURNE (With photos, À propos modal blur, and custom booking link) */}
       <section id="whats-on" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
         <div className="max-w-7xl mx-auto">
           <div className="pb-12 border-b border-[#2B211D]/10">
@@ -286,43 +340,73 @@ export default function HomePage({ navigate }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
-            {EVENTS.map((event) => (
+            {events.map((event) => (
               <div
                 key={event.id}
-                className="bg-[#FFF9EF] p-7 rounded-3xl border border-[#2B211D]/10 hover:border-[#E94B35] transition-all duration-300 flex flex-col justify-between"
+                className="bg-[#FFF9EF] rounded-3xl border border-[#2B211D]/10 hover:border-[#E94B35] transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md group"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#E94B35] bg-[#E94B35]/10 px-3 py-1 rounded-full">
+                {/* Event Photo */}
+                <div
+                  className="aspect-[16/10] overflow-hidden relative cursor-pointer"
+                  onClick={() => setSelectedEventModal(event)}
+                >
+                  <img
+                    src={event.image || 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80'}
+                    alt={event.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-[#E94B35] px-3 py-1 rounded-full shadow-sm">
                       {event.badge}
                     </span>
-                    <span className="text-xs text-[#2B211D]/60 font-sans">
-                      {event.date}
-                    </span>
                   </div>
+                  <div className="absolute bottom-3 right-3 bg-[#2B211D]/80 backdrop-blur-xs text-white text-[11px] px-2.5 py-1 rounded-full font-sans">
+                    {event.date}
+                  </div>
+                </div>
 
-                  <h3 className="font-serif text-2xl font-bold text-[#2B211D] mb-1">
+                {/* Content */}
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3
+                    onClick={() => setSelectedEventModal(event)}
+                    className="font-serif text-2xl font-bold text-[#2B211D] mb-1 group-hover:text-[#E94B35] transition-colors cursor-pointer"
+                  >
                     {event.title}
                   </h3>
                   <p className="text-xs font-serif italic text-[#397DD8] mb-3">
                     {event.highlight}
                   </p>
-                  <p className="text-xs text-[#2B211D]/75 font-sans leading-relaxed">
+                  <p className="text-xs text-[#2B211D]/75 font-sans leading-relaxed line-clamp-3">
                     {event.desc}
                   </p>
-                </div>
 
-                <div className="pt-6 mt-6 border-t border-[#2B211D]/10">
-                  <button
-                    onClick={() => {
-                      navigate('/book-a-table');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="w-full inline-flex items-center justify-center gap-2 text-xs uppercase font-bold tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-colors py-2 cursor-pointer"
-                  >
-                    <span>Participer</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="pt-5 mt-auto border-t border-[#2B211D]/10 flex items-center justify-between gap-3">
+                    {/* "À propos" button opens blurry overlay modal */}
+                    <button
+                      onClick={() => setSelectedEventModal(event)}
+                      className="inline-flex items-center gap-1.5 text-xs uppercase font-bold tracking-wider text-[#2B211D]/70 hover:text-[#2B211D] transition-colors py-1.5 cursor-pointer"
+                    >
+                      <Info className="w-3.5 h-3.5" />
+                      <span>À propos</span>
+                    </button>
+
+                    {/* "Participer" button pre-fills booking */}
+                    <button
+                      onClick={() => {
+                        const query = new URLSearchParams({
+                          event: event.title,
+                          date: event.targetDate || '',
+                          service: event.service || 'dinner'
+                        }).toString();
+                        navigate(`/book-a-table?${query}`);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="inline-flex items-center gap-1.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-4 py-2 rounded-full text-xs uppercase font-bold tracking-wider transition-colors shadow-xs cursor-pointer"
+                    >
+                      <span>Participer</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -330,10 +414,11 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 6. OUR STORY (NOTRE HISTOIRE) */}
+      {/* 6. OUR STORY (Auto-cycling Multi-Photo Gallery with 6+ photos) */}
       <section id="story" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Story Text */}
             <div className="lg:col-span-6 space-y-6">
               <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block">
                 Notre Histoire
@@ -360,27 +445,74 @@ export default function HomePage({ navigate }) {
               </div>
             </div>
 
-            <div className="lg:col-span-6 grid grid-cols-2 gap-4">
-              <div className="rounded-2xl overflow-hidden shadow-md aspect-[3/4]">
+            {/* Auto-cycling Multi-Photo Gallery */}
+            <div
+              className="lg:col-span-6"
+              onMouseEnter={() => setIsStoryHovered(true)}
+              onMouseLeave={() => setIsStoryHovered(false)}
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-[4/3] bg-[#2B211D]/10 border border-[#2B211D]/15 group">
                 <img
-                  src="https://framerusercontent.com/images/enKz7ixDbNy06JOGJ0baMIv5woc.jpg"
-                  alt="Préparation en cuisine chez Santo Mare"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  key={STORY_PHOTOS[storyPhotoIndex].url}
+                  src={STORY_PHOTOS[storyPhotoIndex].url}
+                  alt={STORY_PHOTOS[storyPhotoIndex].title}
+                  className="w-full h-full object-cover transition-all duration-700 ease-out"
                 />
+
+                {/* Photo info caption */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/85 via-transparent to-transparent flex items-end p-6">
+                  <div className="text-white">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#F4E6A8] block mb-0.5">
+                      Instantané {storyPhotoIndex + 1} / {STORY_PHOTOS.length}
+                    </span>
+                    <h4 className="font-serif text-xl sm:text-2xl font-bold">
+                      {STORY_PHOTOS[storyPhotoIndex].title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-white/80 font-sans mt-0.5">
+                      {STORY_PHOTOS[storyPhotoIndex].sub}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Arrows */}
+                <button
+                  onClick={() => setStoryPhotoIndex((prev) => (prev - 1 + STORY_PHOTOS.length) % STORY_PHOTOS.length)}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#FFF9EF]/80 backdrop-blur-xs text-[#2B211D] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white cursor-pointer shadow-md"
+                  aria-label="Photo précédente"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setStoryPhotoIndex((prev) => (prev + 1) % STORY_PHOTOS.length)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#FFF9EF]/80 backdrop-blur-xs text-[#2B211D] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white cursor-pointer shadow-md"
+                  aria-label="Photo suivante"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
               </div>
-              <div className="rounded-2xl overflow-hidden shadow-md aspect-[3/4] mt-8">
-                <img
-                  src="https://framerusercontent.com/images/ouXh6dXR1Y8fR9D4dBboTNgMZM.jpg"
-                  alt="Vue de la terrasse de Santo Mare"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
+
+              {/* Thumbnails strip below */}
+              <div className="grid grid-cols-6 gap-2 mt-4">
+                {STORY_PHOTOS.map((p, idx) => (
+                  <button
+                    key={p.url}
+                    onClick={() => setStoryPhotoIndex(idx)}
+                    className={`rounded-xl overflow-hidden aspect-square border-2 transition-all cursor-pointer ${
+                      storyPhotoIndex === idx
+                        ? 'border-[#E94B35] scale-105 shadow-sm'
+                        : 'border-transparent opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={p.url} alt={p.title} className="w-full h-full object-cover" />
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 7. THE CELLAR (LA CAVE - WITH WORKING LINK TO WINE CATEGORY) */}
+      {/* 7. THE CELLAR (LA CAVE - LINK TO BOISSONS & VINS) */}
       <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#2B211D] text-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#FFF9EF]/10">
@@ -398,7 +530,7 @@ export default function HomePage({ navigate }) {
 
             <button
               onClick={() => {
-                navigate('/menu?category=course-05');
+                navigate('/menu?category=course-04');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="inline-flex items-center gap-2 border border-[#FFF9EF]/30 hover:border-[#FFF9EF] text-[#FFF9EF] px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
@@ -412,7 +544,7 @@ export default function HomePage({ navigate }) {
             <div className="p-6 rounded-2xl bg-[#FFF9EF]/5 border border-[#FFF9EF]/10 hover:border-[#E94B35] transition-colors">
               <Wine className="w-6 h-6 text-[#F4E6A8] mb-3" />
               <h3 className="font-serif text-xl font-bold text-[#FFF9EF]">Blancs Vivants</h3>
-              <p className="text-xs text-[#FFF9EF]/60 font-sans mt-1">Minéraux, iodés et tranchants comme la Méditerranée.</p>
+              <p className="text-xs text-[#FFF9EF]/60 font-sans mt-1">Cassis, Vermentino marin & minéraux de Provence.</p>
             </div>
             <div className="p-6 rounded-2xl bg-[#FFF9EF]/5 border border-[#FFF9EF]/10 hover:border-[#E94B35] transition-colors">
               <Wine className="w-6 h-6 text-[#E94B35] mb-3" />
@@ -422,12 +554,12 @@ export default function HomePage({ navigate }) {
             <div className="p-6 rounded-2xl bg-[#FFF9EF]/5 border border-[#FFF9EF]/10 hover:border-[#E94B35] transition-colors">
               <Wine className="w-6 h-6 text-[#397DD8] mb-3" />
               <h3 className="font-serif text-xl font-bold text-[#FFF9EF]">Rosés de Pressée</h3>
-              <p className="text-xs text-[#FFF9EF]/60 font-sans mt-1">Légers, gouleyants, servis très frais en carafe.</p>
+              <p className="text-xs text-[#FFF9EF]/60 font-sans mt-1">Bandol authentique, servis frais en carafe.</p>
             </div>
             <div className="p-6 rounded-2xl bg-[#FFF9EF]/5 border border-[#FFF9EF]/10 hover:border-[#E94B35] transition-colors">
               <Wine className="w-6 h-6 text-[#697348] mb-3" />
               <h3 className="font-serif text-xl font-bold text-[#FFF9EF]">Apéritifs & Amari</h3>
-              <p className="text-xs text-[#FFF9EF]/60 font-sans mt-1">Herbes sauvages macérées, amers et vermouths.</p>
+              <p className="text-xs text-[#FFF9EF]/60 font-sans mt-1">Spritz Santo, Pastis Henri Bardouin et Negroni.</p>
             </div>
           </div>
         </div>
@@ -470,7 +602,7 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 9. VISIT & LOCATION (WITH MOVED INFO CARDS: HORAIRES, AMBIANCE, SAISON) */}
+      {/* 9. VISIT & LOCATION */}
       <section id="visit" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
@@ -483,7 +615,7 @@ export default function HomePage({ navigate }) {
             </h2>
           </div>
 
-          {/* Moved Info Cards (Horaires, Ambiance, Saison) naturally placed with location */}
+          {/* Info Cards (Horaires, Ambiance, Saison) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-12">
             <div className="bg-[#FFFCF7] p-6 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
               <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
@@ -574,6 +706,90 @@ export default function HomePage({ navigate }) {
           </div>
         </div>
       </section>
+
+      {/* OVERLAY MODAL: "À PROPOS" DE L'ÉVÉNEMENT (With Backdrop Blur) */}
+      {selectedEventModal && (
+        <div
+          className="fixed inset-0 z-50 bg-[#2B211D]/70 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200"
+          onClick={() => setSelectedEventModal(null)}
+        >
+          <div
+            className="bg-[#FFF9EF] rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-[#2B211D]/20 animate-in zoom-in-95 duration-200 my-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Image Header */}
+            <div className="relative aspect-[16/9] bg-[#2B211D]/10">
+              <img
+                src={selectedEventModal.image || 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=80'}
+                alt={selectedEventModal.title}
+                className="w-full h-full object-cover"
+              />
+              <button
+                onClick={() => setSelectedEventModal(null)}
+                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#2B211D]/80 hover:bg-[#2B211D] text-white flex items-center justify-center transition-colors shadow-md cursor-pointer"
+                aria-label="Fermer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-white bg-[#E94B35] px-3 py-1 rounded-full shadow-sm">
+                  {selectedEventModal.badge}
+                </span>
+                <span className="text-xs bg-[#2B211D]/80 backdrop-blur-xs text-white px-3 py-1 rounded-full font-sans">
+                  {selectedEventModal.date}
+                </span>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 sm:p-8 space-y-4">
+              <div>
+                <span className="text-xs uppercase font-bold tracking-widest text-[#E94B35] block mb-1">
+                  Événement Santo Mare
+                </span>
+                <h3 className="font-serif text-3xl sm:text-4xl font-bold text-[#2B211D]">
+                  {selectedEventModal.title}
+                </h3>
+                <p className="text-sm font-serif italic text-[#397DD8] mt-1">
+                  {selectedEventModal.highlight}
+                </p>
+              </div>
+
+              <div className="text-sm text-[#2B211D]/80 font-sans leading-relaxed whitespace-pre-line border-t border-[#2B211D]/10 pt-4">
+                {selectedEventModal.longDescription || selectedEventModal.desc}
+              </div>
+
+              <div className="pt-6 border-t border-[#2B211D]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <button
+                  onClick={() => setSelectedEventModal(null)}
+                  className="w-full sm:w-auto px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider text-[#2B211D]/70 hover:text-[#2B211D] border border-[#2B211D]/20 cursor-pointer"
+                >
+                  Fermer
+                </button>
+
+                <button
+                  onClick={() => {
+                    const event = selectedEventModal;
+                    setSelectedEventModal(null);
+                    const query = new URLSearchParams({
+                      event: event.title,
+                      date: event.targetDate || '',
+                      service: event.service || 'dinner'
+                    }).toString();
+                    navigate(`/book-a-table?${query}`);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#E94B35] hover:bg-[#D33822] text-white px-7 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors shadow-md cursor-pointer"
+                >
+                  <span>Réserver pour cette soirée</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

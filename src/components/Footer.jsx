@@ -131,6 +131,16 @@ export default function Footer({ navigate }) {
                   <ArrowUpRight className="w-3 h-3 text-[#FFF9EF]/40" />
                 </a>
               </li>
+              <li>
+                <a
+                  href="/gestionnaire"
+                  onClick={(e) => handleNav(e, '/gestionnaire')}
+                  className="hover:text-[#E94B35] transition-colors inline-flex items-center gap-1.5 text-[#F4E6A8]/80"
+                >
+                  <span>Espace Gestionnaire</span>
+                  <ArrowUpRight className="w-3 h-3 text-[#F4E6A8]/40" />
+                </a>
+              </li>
             </ul>
           </div>
 

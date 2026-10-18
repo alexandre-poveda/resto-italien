@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Calendar, Users, Clock, CheckCircle2, MapPin, Sparkles, AlertCircle, HeartHandshake } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { RESTAURANT_INFO } from '../data/restaurantData';
@@ -13,8 +13,23 @@ export default function BookTablePage({ navigate }) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [dietary, setDietary] = useState('');
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [bookingRef, setBookingRef] = useState('');
+
+  // Check URL params for event-linked reservations
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ev = params.get('event');
+    const d = params.get('date');
+    const s = params.get('service');
+    if (ev) {
+      setSelectedEvent(ev);
+      setDietary((prev) => (prev ? `${prev} · Événement : ${ev}` : `Participation à : ${ev}`));
+    }
+    if (d) setDate(d);
+    if (s === 'lunch' || s === 'dinner') setService(s);
+  }, []);
 
   const lunchSlots = ['12:00', '12:30', '13:00', '13:30', '14:00'];
   const dinnerSlots = ['19:30', '20:00', '20:30', '21:00', '21:30', '22:00'];
@@ -136,6 +151,30 @@ export default function BookTablePage({ navigate }) {
           /* Interactive Booking Form */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             <form onSubmit={handleSubmit} className="lg:col-span-7 bg-[#FFFCF7] p-6 sm:p-10 rounded-3xl border border-[#2B211D]/15 shadow-sm space-y-8">
+              {/* Event highlight if linked from event */}
+              {selectedEvent && (
+                <div className="bg-[#E94B35]/10 border border-[#E94B35]/30 rounded-2xl p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="w-5 h-5 text-[#E94B35] shrink-0" />
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#E94B35] block">
+                        Réservation pour Soirée Spéciale
+                      </span>
+                      <span className="font-serif font-bold text-[#2B211D] text-base">
+                        {selectedEvent}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEvent(null)}
+                    className="text-xs text-[#2B211D]/60 hover:text-[#2B211D] underline"
+                  >
+                    Changer
+                  </button>
+                </div>
+              )}
+
               {/* Step 1: Convives */}
               <div>
                 <label className="text-xs uppercase font-bold tracking-widest text-[#2B211D] block mb-3">
