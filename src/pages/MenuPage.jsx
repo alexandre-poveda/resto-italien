@@ -1,26 +1,40 @@
-import React, { useState } from 'react';
-import { ArrowUpRight, Sparkles, Filter, Eye, UtensilsCrossed, Calendar } from 'lucide-react';
-import { MENU_CATEGORIES, MENU_ITEMS, RESTAURANT_INFO } from '../data/restaurantData';
+import React, { useState, useEffect } from 'react';
+import { ArrowUpRight, Eye, Utensils } from 'lucide-react';
+import { MENU_CATEGORIES, MENU_ITEMS } from '../data/restaurantData';
 import DishHoverPreview from '../components/DishHoverPreview';
 
 export default function MenuPage({ navigate }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [activeDish, setActiveDish] = useState(null);
-  const [filterTag, setFilterTag] = useState('all');
   const [mobileModalDish, setMobileModalDish] = useState(null);
 
-  // Filtered dishes
-  const filteredDishes = MENU_ITEMS.filter((dish) => {
-    const matchesCategory = selectedCategory === 'all' || dish.courseId === selectedCategory;
-    const matchesTag =
-      filterTag === 'all' ||
-      (filterTag === 'signature' && dish.isSignature) ||
-      (filterTag === 'veggie' && dish.tags.includes('Végétarien')) ||
-      (filterTag === 'peche' && dish.tags.includes('Pêche Locale'));
-    return matchesCategory && matchesTag;
-  });
+  // Check URL params for pre-selected category (e.g. from "Voir la carte des vins")
+  useEffect(() => {
+    const checkParams = () => {
+      const params = new URLSearchParams(window.location.search);
+      const catParam = params.get('category');
+      if (catParam && MENU_CATEGORIES.some((c) => c.id === catParam)) {
+        setSelectedCategory(catParam);
+        setTimeout(() => {
+          const el = document.getElementById(catParam);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      }
+    };
+    checkParams();
+  }, []);
 
-  // Group by category if "all" is selected
+  const handleCategorySelect = (catId) => {
+    setSelectedCategory(catId);
+    if (catId !== 'all') {
+      setTimeout(() => {
+        const el = document.getElementById(catId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+  };
+
+  // Categories to display
   const categoriesToRender =
     selectedCategory === 'all'
       ? MENU_CATEGORIES.filter((c) => c.id !== 'all')
@@ -31,14 +45,9 @@ export default function MenuPage({ navigate }) {
       {/* Floating Cursor Image Preview for Desktop */}
       <DishHoverPreview activeDish={activeDish} />
 
-      {/* Hero Header */}
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-12 border-b border-[#2B211D]/10">
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#2B211D]/10 text-xs tracking-widest uppercase font-semibold text-[#2B211D]/75">
-          <span>COASTAL KITCHEN · SANTO MARE · MARSEILLE</span>
-          <span className="text-[#E94B35]">À LA CARTE / PRIX EN EUROS €</span>
-        </div>
-
-        <div className="pt-10 sm:pt-14 pb-4">
+      {/* Main Header */}
+      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-10 border-b border-[#2B211D]/10">
+        <div className="pt-6 sm:pt-10 max-w-3xl">
           <span className="text-xs uppercase tracking-[0.25em] font-bold text-[#E94B35] block mb-2">
             Cuisine Côtière & Trattoria de Mer
           </span>
@@ -46,66 +55,51 @@ export default function MenuPage({ navigate }) {
             La Carte Saisonnière.
           </h1>
           <p className="mt-4 text-base sm:text-lg text-[#2B211D]/75 font-sans max-w-2xl">
-            Assiettes vivantes, produits de la mer débarqués au quai et pâtes fraîches façonnées chaque matin. Faites circuler les plats au centre de la table.
+            Assiettes solaires pensées pour le partage, poissons débarqués au port et pâtes fraîches façonnées chaque matin.
           </p>
-
-          <div className="mt-4 hidden md:flex items-center gap-2 text-xs font-serif italic text-[#697348]">
-            <Sparkles className="w-3.5 h-3.5 text-[#E94B35]" />
-            <span>Survolez n'importe quel plat avec votre souris pour en admirer la prévisualisation en image.</span>
-          </div>
         </div>
 
-        {/* Category Navigation Pills */}
-        <div className="mt-8 flex flex-wrap items-center gap-2 pt-6 border-t border-[#2B211D]/10">
-          {MENU_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 sm:px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${
-                selectedCategory === cat.id
-                  ? 'bg-[#E94B35] text-white shadow-sm'
-                  : 'bg-[#2B211D]/5 text-[#2B211D]/80 hover:bg-[#2B211D]/10'
-              }`}
-            >
-              <span>{cat.label}</span>
-            </button>
-          ))}
-        </div>
+        {/* Clean, Redesigned Category Filters */}
+        <div className="mt-10 flex flex-wrap items-center gap-2.5 pt-6 border-t border-[#2B211D]/10">
+          {MENU_CATEGORIES.map((cat) => {
+            const isSelected = selectedCategory === cat.id;
+            const count =
+              cat.id === 'all'
+                ? MENU_ITEMS.length
+                : MENU_ITEMS.filter((d) => d.courseId === cat.id).length;
 
-        {/* Dietary / Preference Tags */}
-        <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-sans">
-          <span className="text-[#2B211D]/50 text-[11px] font-bold uppercase tracking-wider mr-2">
-            Filtres :
-          </span>
-          {[
-            { id: 'all', label: 'Tout' },
-            { id: 'signature', label: '⭐ Assiettes Signatures' },
-            { id: 'peche', label: '🐟 Pêche Locale' },
-            { id: 'veggie', label: '🌿 Végétarien' },
-          ].map((tag) => (
-            <button
-              key={tag.id}
-              onClick={() => setFilterTag(tag.id)}
-              className={`px-3 py-1 rounded-full text-[11px] font-semibold transition-colors ${
-                filterTag === tag.id
-                  ? 'bg-[#2B211D] text-white'
-                  : 'bg-transparent text-[#2B211D]/70 hover:text-[#2B211D] border border-[#2B211D]/15'
-              }`}
-            >
-              {tag.label}
-            </button>
-          ))}
+            return (
+              <button
+                key={cat.id}
+                onClick={() => handleCategorySelect(cat.id)}
+                className={`px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-200 flex items-center gap-2 ${
+                  isSelected
+                    ? 'bg-[#E94B35] text-white shadow-sm'
+                    : 'bg-[#2B211D]/5 text-[#2B211D]/80 hover:bg-[#2B211D]/10'
+                }`}
+              >
+                <span>{cat.label}</span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                    isSelected ? 'bg-white/20 text-white' : 'bg-[#2B211D]/10 text-[#2B211D]/60'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Menu Categories & Dish Listing */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 space-y-20">
         {categoriesToRender.map((cat) => {
-          const categoryDishes = filteredDishes.filter((d) => d.courseId === cat.id);
+          const categoryDishes = MENU_ITEMS.filter((d) => d.courseId === cat.id);
           if (categoryDishes.length === 0) return null;
 
           return (
-            <div key={cat.id} id={cat.id} className="scroll-mt-32">
+            <div key={cat.id} id={cat.id} className="scroll-mt-36">
               {/* Category Header */}
               <div className="border-b-2 border-[#2B211D] pb-4 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
@@ -121,7 +115,7 @@ export default function MenuPage({ navigate }) {
                 </span>
               </div>
 
-              {/* Dish Items Table */}
+              {/* Dish Items Listing */}
               <div className="divide-y divide-[#2B211D]/10">
                 {categoryDishes.map((dish) => (
                   <div
@@ -155,7 +149,7 @@ export default function MenuPage({ navigate }) {
 
                       {dish.pairing && (
                         <p className="mt-2 text-xs font-serif italic text-[#697348] flex items-center gap-1.5">
-                          <span>Accord parfait :</span>
+                          <span>Accord conseillé :</span>
                           <span className="font-semibold">{dish.pairing}</span>
                         </p>
                       )}
@@ -176,11 +170,11 @@ export default function MenuPage({ navigate }) {
                         {dish.price} €
                       </span>
 
-                      {/* Small subtle thumbnail on desktop or hover indicator */}
+                      {/* Dish Thumbnail */}
                       <div
                         onClick={() => setMobileModalDish(dish)}
-                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border border-[#2B211D]/15 shadow-xs cursor-pointer group-hover:scale-105 transition-transform"
-                        title="Cliquer pour voir en grand"
+                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border border-[#2B211D]/15 shadow-xs cursor-pointer group-hover:scale-105 transition-transform bg-[#2B211D]/5"
+                        title="Cliquer pour voir la photo"
                       >
                         <img
                           src={dish.image}
@@ -196,44 +190,6 @@ export default function MenuPage({ navigate }) {
             </div>
           );
         })}
-      </div>
-
-      {/* Editorial Food Inspiration Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="rounded-2xl overflow-hidden shadow-md aspect-[4/3] relative group">
-            <img
-              src="https://framerusercontent.com/images/aaktz3au7Gc2FqjUKEe8xyQWgVU.webp"
-              alt="Pêche et antipasti"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/80 via-transparent to-transparent flex items-end p-5 text-white">
-              <span className="font-serif text-lg font-bold">Pêche du jour & basilic frais.</span>
-            </div>
-          </div>
-
-          <div className="rounded-2xl overflow-hidden shadow-md aspect-[4/3] relative group">
-            <img
-              src="https://framerusercontent.com/images/is5D5GqVlUr87HVAeVjDLW27A.webp"
-              alt="Pâtes fraîches maison"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/80 via-transparent to-transparent flex items-end p-5 text-white">
-              <span className="font-serif text-lg font-bold">Un peu de piment. Encore du pecorino.</span>
-            </div>
-          </div>
-
-          <div className="rounded-2xl overflow-hidden shadow-md aspect-[4/3] relative group">
-            <img
-              src="https://framerusercontent.com/images/P6u5y5vkWZuVz2B8bDMBrpnr0kk.webp"
-              alt="Café et desserts"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/80 via-transparent to-transparent flex items-end p-5 text-white">
-              <span className="font-serif text-lg font-bold">Gardez toujours une place pour le tiramisu.</span>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Bottom Reservation Callout */}
@@ -275,8 +231,14 @@ export default function MenuPage({ navigate }) {
 
       {/* Mobile Dish Modal Preview (when tapped) */}
       {mobileModalDish && (
-        <div className="fixed inset-0 z-50 bg-[#2B211D]/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FFF9EF] rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border border-[#2B211D]/20 animate-in fade-in zoom-in-95 duration-200">
+        <div
+          className="fixed inset-0 z-50 bg-[#2B211D]/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setMobileModalDish(null)}
+        >
+          <div
+            className="bg-[#FFF9EF] rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border border-[#2B211D]/20 animate-in fade-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="relative aspect-[4/3] bg-[#2B211D]/5">
               <img
                 src={mobileModalDish.image}
@@ -302,7 +264,7 @@ export default function MenuPage({ navigate }) {
                   Accord conseillé : <strong className="text-[#2B211D]">{mobileModalDish.pairing}</strong>
                 </div>
               )}
-              <div className="mt-6 flex gap-3">
+              <div className="mt-6">
                 <button
                   onClick={() => setMobileModalDish(null)}
                   className="w-full bg-[#2B211D] text-white py-3 rounded-full text-xs font-semibold uppercase tracking-wider"

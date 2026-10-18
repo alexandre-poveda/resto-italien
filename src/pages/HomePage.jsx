@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, Compass, Sparkles, Clock, Wine, Users, Calendar, MapPin, ChevronRight, Music } from 'lucide-react';
+import { ArrowUpRight, Clock, Wine, MapPin, Calendar } from 'lucide-react';
 import Marquee from '../components/Marquee';
 import { RESTAURANT_INFO, SIGNATURE_DISHES, ATMOSPHERE_MOODS, EVENTS } from '../data/restaurantData';
 
@@ -13,22 +13,10 @@ export default function HomePage({ navigate }) {
   return (
     <div className="pt-20 sm:pt-24 overflow-hidden">
       {/* 1. HERO SECTION */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-6 sm:pt-12 pb-16 sm:pb-24 border-b border-[#2B211D]/10">
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 pb-16 sm:pb-24 border-b border-[#2B211D]/10">
         <div className="max-w-7xl mx-auto">
-          {/* Top Location / Status bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#2B211D]/10 text-xs tracking-widest uppercase font-semibold text-[#2B211D]/75">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#697348] animate-pulse"></span>
-              <span>{RESTAURANT_INFO.coordinates} · MARSEILLE</span>
-            </div>
-            <div className="hidden sm:flex items-center gap-6">
-              <span>{RESTAURANT_INFO.subtitle}</span>
-              <span className="text-[#E94B35]">TABLE 07 · ARRIVÉES SANS RÉSERVATION BIENVENUES</span>
-            </div>
-          </div>
-
-          {/* Giant Hero Title */}
-          <div className="pt-8 sm:pt-14 pb-8 sm:pb-12">
+          {/* Big Poetic Headline */}
+          <div className="pb-8 sm:pb-10 max-w-5xl">
             <div className="inline-block mb-3 text-xs tracking-[0.25em] uppercase font-bold text-[#E94B35]">
               Marseille · Trattoria & Bistrot de Mer
             </div>
@@ -39,77 +27,37 @@ export default function HomePage({ navigate }) {
             </h1>
           </div>
 
-          {/* Subtext and Three Hero Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pt-4">
-            <div className="lg:col-span-5">
-              <p className="font-sans text-base sm:text-lg text-[#2B211D]/80 leading-relaxed font-normal">
-                {RESTAURANT_INFO.tagline}
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                <button
-                  onClick={() => {
-                    navigate('/book-a-table');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-transform hover:-translate-y-0.5 active:translate-y-0 shadow-md"
-                >
-                  <span>Réserver votre table</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/menu');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-6 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors"
-                >
-                  <span>Découvrir le menu</span>
-                  <ArrowUpRight className="w-4 h-4 text-[#2B211D]/60" />
-                </button>
-              </div>
-            </div>
-
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-[#2B211D]/5 p-5 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
-                <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
-                  Horaires
-                </span>
-                <p className="font-serif text-lg font-bold text-[#2B211D]">
-                  Mardi — Dimanche
-                </p>
-                <p className="text-xs text-[#2B211D]/70 font-sans mt-0.5">
-                  12h00 → Tard dans la nuit
-                </p>
-              </div>
-
-              <div className="bg-[#2B211D]/5 p-5 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
-                <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
-                  Ambiance
-                </span>
-                <p className="font-serif text-lg font-bold text-[#2B211D]">
-                  Venez avec l'Appétit
-                </p>
-                <p className="text-xs text-[#2B211D]/70 font-sans mt-0.5">
-                  Partage & grandes tablées
-                </p>
-              </div>
-
-              <div className="bg-[#2B211D]/5 p-5 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
-                <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
-                  Saison
-                </span>
-                <p className="font-serif text-lg font-bold text-[#2B211D]">
-                  Carte Nº 03
-                </p>
-                <p className="text-xs text-[#2B211D]/70 font-sans mt-0.5">
-                  Pêche locale & produits du sud
-                </p>
-              </div>
+          {/* Subtext and Action Buttons */}
+          <div className="max-w-2xl pt-2 pb-6">
+            <p className="font-sans text-base sm:text-xl text-[#2B211D]/80 leading-relaxed font-normal">
+              {RESTAURANT_INFO.tagline}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => {
+                  navigate('/book-a-table');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="inline-flex items-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-transform hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+              >
+                <span>Réserver une table</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/menu');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-7 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors"
+              >
+                <span>Découvrir le menu</span>
+                <ArrowUpRight className="w-4 h-4 text-[#2B211D]/60" />
+              </button>
             </div>
           </div>
 
           {/* Large Hero Photography Frame */}
-          <div className="mt-12 sm:mt-16 relative rounded-3xl overflow-hidden aspect-[16/9] sm:aspect-[21/9] shadow-xl border border-[#2B211D]/15 group">
+          <div className="mt-8 sm:mt-12 relative rounded-3xl overflow-hidden aspect-[16/9] sm:aspect-[21/9] shadow-xl border border-[#2B211D]/15 group">
             <img
               src="https://framerusercontent.com/images/3aSiJ6lXiGAmTM2hZcKOEo6eyoM.jpg"
               alt="Table dressée au bord de la mer Méditerranée au restaurant Santo Mare"
@@ -129,21 +77,22 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 2. SIGNATURE DISHES HIGHLIGHT (CARTE Nº03) */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]">
+      {/* 2. LES PLATS DE SAISON (SINGLE INTERACTIVE SHOWCASE) */}
+      <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
             <div>
               <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-                Édition Saisonnière · Carte Nº 03
+                Édition Nº 03 · Carte Saisonnière
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
-                Ce qu'on déguste en ce moment.
+              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-[#2B211D]">
+                Les Plats de Saison.
               </h2>
-              <p className="text-sm sm:text-base text-[#2B211D]/70 font-sans mt-2 max-w-lg">
-                Venez le ventre vide. Commandez trop. Restez trop tard. Une sélection d'assiettes emblématiques préparées chaque jour selon le marché.
+              <p className="text-sm sm:text-base text-[#2B211D]/75 font-sans mt-2 max-w-xl">
+                Une sélection d'assiettes emblématiques préparées chaque jour selon le marché et la pêche du matin.
               </p>
             </div>
+
             <button
               onClick={() => {
                 navigate('/menu');
@@ -151,78 +100,13 @@ export default function HomePage({ navigate }) {
               }}
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-colors group"
             >
-              <span>Consulter la carte complète</span>
+              <span>Voir toute la carte saisonnière</span>
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
           </div>
 
-          {/* 4 Dish Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-12">
-            {SIGNATURE_DISHES.map((dish) => (
-              <div
-                key={dish.number}
-                onClick={() => {
-                  navigate('/menu');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="group bg-[#FFFCF7] rounded-2xl p-5 border border-[#2B211D]/10 hover:border-[#E94B35] hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer"
-              >
-                <div>
-                  <div className="relative aspect-square rounded-xl overflow-hidden mb-4 bg-[#2B211D]/5">
-                    <img
-                      src={dish.fullImage}
-                      alt={dish.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <span className="absolute top-3 left-3 bg-[#FFF9EF]/90 backdrop-blur-xs text-[#2B211D] font-serif font-bold text-xs px-2.5 py-1 rounded-full">
-                      {dish.number}
-                    </span>
-                    <span className="absolute bottom-3 right-3 bg-[#E94B35] text-white font-serif font-bold text-xs px-2.5 py-1 rounded-full shadow-sm">
-                      {dish.price}
-                    </span>
-                  </div>
-
-                  <h3 className="font-serif text-xl font-bold text-[#2B211D] group-hover:text-[#E94B35] transition-colors">
-                    {dish.name}
-                  </h3>
-                  <p className="text-xs text-[#2B211D]/75 font-sans mt-1">
-                    {dish.desc}
-                  </p>
-                  <p className="text-[11px] text-[#2B211D]/55 font-sans italic mt-2 line-clamp-2">
-                    {dish.details}
-                  </p>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-[#2B211D]/10 flex items-center justify-between text-xs font-semibold text-[#2B211D]/60 group-hover:text-[#E94B35] transition-colors">
-                  <span>Voir la recette</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. INFINITE MARQUEE BANNER */}
-      <Marquee text="POISSON FRAIS DU PORT ★ PÂTES FRAÎCHES MAISON ★ VINS NATURELS & FLACONS VIVANTS ★ APÉRITIVO À L'ITALIENNE ★ EMBRUNS MARINS & BELLES NUITS ★ CUISINE CÔTIÈRE ★" />
-
-      {/* 4. PASS THE PLATE (FAITES TOURNER L'ASSIETTE) INTERACTIVE SECTION */}
-      <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-              Le Partage en Priorité · 04
-            </span>
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-[#2B211D]">
-              Faites Tourner l'Assiette.
-            </h2>
-            <p className="text-sm sm:text-base text-[#2B211D]/75 font-sans mt-3">
-              Ici, personne ne garde son assiette pour soi. Les plats circulent, les fourchettes se croisent et les verres se remplissent au fil des conversations.
-            </p>
-          </div>
-
           {/* Interactive Plate Stage */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center pt-12">
             {/* Left Selector Tabs */}
             <div className="lg:col-span-5 flex flex-col gap-3">
               {SIGNATURE_DISHES.map((dish, idx) => {
@@ -231,7 +115,7 @@ export default function HomePage({ navigate }) {
                   <button
                     key={dish.number}
                     onClick={() => setActivePlateIndex(idx)}
-                    className={`text-left p-5 rounded-2xl border transition-all duration-300 flex items-center justify-between group ${
+                    className={`text-left p-5 rounded-2xl border transition-all duration-300 flex items-center justify-between group cursor-pointer ${
                       isSelected
                         ? 'bg-[#FFF9EF] border-[#E94B35] shadow-lg translate-x-2'
                         : 'bg-[#FFF9EF]/40 border-[#2B211D]/10 hover:border-[#2B211D]/30'
@@ -261,8 +145,8 @@ export default function HomePage({ navigate }) {
               })}
             </div>
 
-            {/* Right Plate Display with Cutout physics / animation */}
-            <div className="lg:col-span-7 flex flex-col items-center justify-center p-8 sm:p-12 bg-[#FFF9EF] rounded-3xl border border-[#2B211D]/15 shadow-inner relative overflow-hidden min-h-[420px]">
+            {/* Right Plate Display with Cutout physics */}
+            <div className="lg:col-span-7 flex flex-col items-center justify-center p-8 sm:p-12 bg-[#FFF9EF] rounded-3xl border border-[#2B211D]/15 shadow-inner relative overflow-hidden min-h-[440px]">
               {/* Subtle background radial glow */}
               <div className="absolute w-[360px] h-[360px] rounded-full bg-[#F4E6A8]/40 blur-3xl pointer-events-none"></div>
 
@@ -272,14 +156,14 @@ export default function HomePage({ navigate }) {
                   key={activePlate.cutoutImage}
                   src={activePlate.cutoutImage}
                   alt={activePlate.name}
-                  className="max-w-full max-h-full object-contain drop-shadow-2xl transition-all duration-500 transform hover:scale-110 hover:rotate-3 cursor-grab"
+                  className="max-w-full max-h-full object-contain drop-shadow-2xl transition-all duration-500 transform hover:scale-110 hover:rotate-2 cursor-grab"
                 />
               </div>
 
-              {/* Dish details snippet below plate */}
+              {/* Dish details snippet */}
               <div className="relative z-10 text-center mt-6 max-w-md">
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#E94B35] block mb-1">
-                  Assiette Nº {activePlate.number}
+                  Plat Nº {activePlate.number}
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-[#2B211D]">
                   {activePlate.name}
@@ -305,13 +189,16 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 5. ATMOSPHERE · 3 AMBIANCES */}
+      {/* 3. SLOW & LEISURELY MARQUEE BANNER */}
+      <Marquee text="PÊCHE DU MATIN ★ PÂTES FRAÎCHES FAÇONNÉES AU BRONZE ★ VINS VIVANTS & NATURELS ★ APÉRITIVO ITALIEN ★ BELLES NUITS FACE À LA MER ★ HUILE D'OLIVE VIERGE EXTRA ★" />
+
+      {/* 4. ATMOSPHERE · 3 AMBIANCES */}
       <section id="atmosphere" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
             <div>
               <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-                Atmosphère · 05
+                Atmosphère
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
                 Un Lieu. Trois Moments de Vie.
@@ -327,7 +214,7 @@ export default function HomePage({ navigate }) {
                 <button
                   key={mood.id}
                   onClick={() => setActiveMoodIndex(idx)}
-                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${
+                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                     activeMoodIndex === idx
                       ? 'bg-[#E94B35] text-white shadow-sm'
                       : 'text-[#2B211D]/70 hover:text-[#2B211D]'
@@ -383,26 +270,19 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 6. WHAT'S ON / CE SOIR AU SANTO */}
+      {/* 5. WHAT'S ON / CE SOIR AU SANTO */}
       <section id="whats-on" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
-            <div>
-              <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-                Agenda & Vie Nocturne
-              </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
-                Ce Soir & Cette Semaine au Santo.
-              </h2>
-              <p className="text-sm sm:text-base text-[#2B211D]/70 font-sans mt-2 max-w-lg">
-                Des soirées vinyles, des barbecues dominicaux et des rencontres avec les vignerons qui font vibrer nos verres.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs font-semibold text-[#697348] bg-[#697348]/10 px-4 py-2 rounded-full">
-              <Music className="w-4 h-4" />
-              <span>Système son Haute-Fidélité & Vinyles</span>
-            </div>
+          <div className="pb-12 border-b border-[#2B211D]/10">
+            <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
+              Agenda & Vie Nocturne
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
+              Ce Soir & Cette Semaine au Santo.
+            </h2>
+            <p className="text-sm sm:text-base text-[#2B211D]/70 font-sans mt-2 max-w-lg">
+              Des soirées vinyles, des barbecues dominicaux et des rencontres avec les vignerons qui font vibrer nos verres.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
@@ -438,7 +318,7 @@ export default function HomePage({ navigate }) {
                       navigate('/book-a-table');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="w-full inline-flex items-center justify-center gap-2 text-xs uppercase font-bold tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-colors py-2"
+                    className="w-full inline-flex items-center justify-center gap-2 text-xs uppercase font-bold tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-colors py-2 cursor-pointer"
                   >
                     <span>Participer</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -450,13 +330,13 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 7. OUR STORY (NOTRE HISTOIRE) */}
+      {/* 6. OUR STORY (NOTRE HISTOIRE) */}
       <section id="story" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">
               <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block">
-                Notre Histoire · 06
+                Notre Histoire
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D] leading-tight">
                 Une table de quartier baignée d'embruns marins.
@@ -465,7 +345,7 @@ export default function HomePage({ navigate }) {
                 Santo Mare est né d'un amour viscéral pour deux côtes sœurs : le littoral marseillais et la Riviera italienne. Deux terres unies par le sel, l'olivier, l'ail doux et la passion du bon geste.
               </p>
               <p className="font-sans text-base text-[#2B211D]/80 leading-relaxed">
-                Chaque matin, nos cuisiniers accueillent les caisses de bars, daurades et poulpes débarquées au port. La pâte à focaccia lève lentement, les tomates s'épanouissent au soleil et les pâtes fraîches sont laminées à la main. Pas d'esbroufe : des produits francs, de l'huile d'olive en abondance et des flacons vivants qui racontent leur terroir.
+                Chaque matin, nos cuisiniers accueillent les caisses de bars, daurades et poulpes débarquées au port. La pâte à focaccia lève lentement, les tomates s'épanouissent au soleil et les pâtes fraîches sont laminées à la main.
               </p>
 
               <div className="pt-4 grid grid-cols-2 gap-6 border-t border-[#2B211D]/10">
@@ -500,13 +380,13 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 8. THE CELLAR (LA CAVE) */}
+      {/* 7. THE CELLAR (LA CAVE - WITH WORKING LINK TO WINE CATEGORY) */}
       <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#2B211D] text-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#FFF9EF]/10">
             <div>
               <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-                La Cave du Santo · 07
+                La Cave du Santo
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#FFF9EF]">
                 Encore une bouteille.
@@ -518,10 +398,10 @@ export default function HomePage({ navigate }) {
 
             <button
               onClick={() => {
-                navigate('/menu');
+                navigate('/menu?category=course-05');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center gap-2 border border-[#FFF9EF]/30 hover:border-[#FFF9EF] text-[#FFF9EF] px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors"
+              className="inline-flex items-center gap-2 border border-[#FFF9EF]/30 hover:border-[#FFF9EF] text-[#FFF9EF] px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
             >
               <span>Voir la carte des vins</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
@@ -553,12 +433,12 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 9. PRIVATE DINING CALLOUT */}
+      {/* 8. PRIVATE DINING CALLOUT */}
       <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
         <div className="max-w-7xl mx-auto bg-[#FFF9EF] p-8 sm:p-14 rounded-3xl border border-[#2B211D]/15 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7">
             <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-              Privatisation & Événements · 08
+              Privatisation & Événements
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
               Invitez Tout le Monde.
@@ -572,7 +452,7 @@ export default function HomePage({ navigate }) {
                   navigate('/private-dining');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="inline-flex items-center gap-2 bg-[#E94B35] hover:bg-[#D33822] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 bg-[#E94B35] hover:bg-[#D33822] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors shadow-sm cursor-pointer"
               >
                 <span>Découvrir les formules de privatisation</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -590,17 +470,60 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 10. VISIT & LOCATION */}
+      {/* 9. VISIT & LOCATION (WITH MOVED INFO CARDS: HORAIRES, AMBIANCE, SAISON) */}
       <section id="visit" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-12">
+            <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
+              Nous Trouver
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
+              Retrouvez-nous au bord de l'eau.
+            </h2>
+          </div>
+
+          {/* Moved Info Cards (Horaires, Ambiance, Saison) naturally placed with location */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-12">
+            <div className="bg-[#FFFCF7] p-6 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
+              <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
+                Horaires d'Ouverture
+              </span>
+              <p className="font-serif text-xl font-bold text-[#2B211D]">
+                Mardi — Dimanche
+              </p>
+              <p className="text-xs text-[#2B211D]/70 font-sans mt-1">
+                12h00 → Minuit en semaine · 01h30 le week-end
+              </p>
+            </div>
+
+            <div className="bg-[#FFFCF7] p-6 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
+              <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
+                Esprit de Table
+              </span>
+              <p className="font-serif text-xl font-bold text-[#2B211D]">
+                Venez avec de l'Appétit
+              </p>
+              <p className="text-xs text-[#2B211D]/70 font-sans mt-1">
+                Assiettes à partager & sans réservation au bar
+              </p>
+            </div>
+
+            <div className="bg-[#FFFCF7] p-6 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
+              <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
+                Carte du Moment
+              </span>
+              <p className="font-serif text-xl font-bold text-[#2B211D]">
+                Édition Nº 03
+              </p>
+              <p className="text-xs text-[#2B211D]/70 font-sans mt-1">
+                Pêche marseillaise & fraîcheur provençale
+              </p>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
-              <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block">
-                Nous Trouver · 09
-              </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D] leading-tight">
-                Retrouvez-nous au bord de l'eau.
-              </h2>
               <div className="space-y-4 text-sm font-sans text-[#2B211D]/80">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[#E94B35] shrink-0 mt-0.5" />
@@ -612,13 +535,13 @@ export default function HomePage({ navigate }) {
                 <div className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-[#E94B35] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="block text-[#2B211D]">Mardi — Dimanche</strong>
+                    <strong className="block text-[#2B211D]">Service continu</strong>
                     <span>Déjeuner à partir de 12h00 · Dîner jusqu'à 01h30 le week-end</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 flex gap-4">
+              <div className="pt-2 flex flex-wrap gap-4">
                 <a
                   href={`https://maps.google.com/?q=${encodeURIComponent(RESTAURANT_INFO.address)}`}
                   target="_blank"
@@ -628,6 +551,16 @@ export default function HomePage({ navigate }) {
                   <span>Ouvrir dans Google Maps</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
+                <button
+                  onClick={() => {
+                    navigate('/book-a-table');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
+                >
+                  <span>Réserver une table</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
 

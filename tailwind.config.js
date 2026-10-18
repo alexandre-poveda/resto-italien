@@ -47,8 +47,8 @@ export default {
         tightest: '-0.035em',
       },
       animation: {
-        'marquee': 'marquee 25s linear infinite',
-        'marquee-reverse': 'marquee-reverse 25s linear infinite',
+        'marquee': 'marquee 75s linear infinite',
+        'marquee-reverse': 'marquee-reverse 75s linear infinite',
         'float-slow': 'float 6s ease-in-out infinite',
       },
       keyframes: {

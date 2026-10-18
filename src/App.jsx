@@ -40,15 +40,16 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Determine current page
+  // Determine current page based on basePath
+  const basePath = currentPath.split('?')[0].split('#')[0];
   let PageComponent = HomePage;
-  if (currentPath === '/' || currentPath === '') {
+  if (basePath === '/' || basePath === '') {
     PageComponent = HomePage;
-  } else if (currentPath === '/menu') {
+  } else if (basePath === '/menu') {
     PageComponent = MenuPage;
-  } else if (currentPath === '/book-a-table') {
+  } else if (basePath === '/book-a-table') {
     PageComponent = BookTablePage;
-  } else if (currentPath === '/private-dining') {
+  } else if (basePath === '/private-dining') {
     PageComponent = PrivateDiningPage;
   } else {
     PageComponent = NotFoundPage;

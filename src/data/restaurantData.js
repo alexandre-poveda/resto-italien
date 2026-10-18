@@ -36,7 +36,7 @@ export const MENU_ITEMS = [
     originalName: "Focaccia",
     description: "Pâte au levain naturel fermentée 48h, romarin sauvage des calanques, fleur de sel de Camargue et huile d'olive vierge extra pressée à froid.",
     price: 7,
-    tags: ["Maison", "Végétarien"],
+    tags: ["Végétarien"],
     image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80",
     prepTime: "5 min",
     pairing: "Vermentino di Sardegna"
@@ -77,7 +77,7 @@ export const MENU_ITEMS = [
     description: "Sélection de tomates de plein champ du Luberon (Cœur de bœuf, Noire de Crimée, Green Zebra), câpres sauvages de Pantelleria, origan sauvage et stracciatella fumée.",
     price: 13,
     tags: ["Végétarien", "Bio"],
-    image: "https://images.unsplash.com/photo-1592417817098-8f3d6910985c?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
     prepTime: "6 min",
     pairing: "Rosé Nature de Bandol"
   },
@@ -114,12 +114,12 @@ export const MENU_ITEMS = [
     id: "rigatoni",
     courseId: "course-02",
     courseName: "De la Cuisine",
-    name: "Rigatoni Maison au Piment Doux & Pecorino",
+    name: "Rigatoni au Piment Doux & Pecorino",
     originalName: "Rigatoni",
     description: "Pâtes tréfilées au bronze, sauce mijotée de tomates San Marzano DOP, piment calabrais infusé à l'huile d'olive, ail doux rôti et pluie généreuse de pecorino romano 18 mois.",
     price: 22,
     isSignature: true,
-    tags: ["Signature", "Pâtes Maison"],
+    tags: ["Signature"],
     image: "https://framerusercontent.com/images/YTHXXyqjHYIAIuakAJEdRUC4nHE.jpg",
     prepTime: "12 min",
     pairing: "Chianti Classico Nature"
@@ -132,8 +132,8 @@ export const MENU_ITEMS = [
     originalName: "Lemon Linguine",
     description: "Pâtes longues artisanales liées au beurre noisette, jus et zestes rapés de citrons non traités d'Amalfi, crème de parmigiano reggiano 24 mois et poivre blanc de Sarawak.",
     price: 23,
-    tags: ["Pâtes Maison", "Végétarien"],
-    image: "https://images.unsplash.com/photo-1621996346565-e3d5d62816dc?auto=format&fit=crop&w=800&q=80",
+    tags: ["Végétarien"],
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
     prepTime: "11 min",
     pairing: "Greco di Tufo"
   },
@@ -216,7 +216,7 @@ export const MENU_ITEMS = [
     description: "Petites pommes de terre grenailles confites dans l'huile d'olive, écrasées et dorées à la plancha avec romarin frais et sel croquant de Guérande.",
     price: 7,
     tags: ["Accompagnement", "Végétalien"],
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1600850056064-a8b380df8395?auto=format&fit=crop&w=800&q=80",
     prepTime: "8 min"
   },
   {
@@ -254,7 +254,7 @@ export const MENU_ITEMS = [
     description: "Biscuits savoiardi imbibés d'un espresso d'Éthiopie torréfié à Marseille et d'une larme d'Amaretto d'artisan, crème aérienne au mascarpone frais et cacao grand cru.",
     price: 12,
     isSignature: true,
-    tags: ["Signature", "Fait Maison"],
+    tags: ["Signature"],
     image: "https://framerusercontent.com/images/qHV80Is2JgJqVCW1QUvKP46rzM.jpg",
     prepTime: "Prêt à servir",
     pairing: "Marsala Superiore"
@@ -267,7 +267,7 @@ export const MENU_ITEMS = [
     originalName: "Lemon Olive Oil Cake",
     description: "Moelleux toscan traditionnel imbibé de sirop de citrons de Menton, cuillère de crème fraîche épaisse crue et zestes d'agrumes confits.",
     price: 11,
-    tags: ["Fait Maison", "Classique"],
+    tags: ["Classique"],
     image: "https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=800&q=80",
     prepTime: "Prêt à servir"
   },
@@ -279,7 +279,7 @@ export const MENU_ITEMS = [
     originalName: "Panna Cotta",
     description: "Crème vanillée onctueuse aux gousses de Madagascar, compotée minute de figues fraîches rôties ou coulis de fruits rouges du pays selon arrivage.",
     price: 10,
-    tags: ["Sans Gluten", "Fait Maison"],
+    tags: ["Sans Gluten"],
     image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80",
     prepTime: "Prêt à servir"
   },
@@ -370,18 +370,6 @@ export const MENU_ITEMS = [
     tags: ["Café Bio"],
     image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
     prepTime: "2 min"
-  },
-  {
-    id: "table-water",
-    courseId: "course-05",
-    courseName: "Apéritif & Flacons",
-    name: "Eau Plate ou Gazeuse Micro-filtrée (750 ml)",
-    originalName: "Still / Sparkling Water",
-    description: "Eau de source affinée sur place, servie fraîche en carafe sérigraphiée Santo Mare.",
-    price: 5,
-    tags: ["Durable"],
-    image: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=800&q=80",
-    prepTime: "Instantané"
   }
 ];
 

@@ -60,25 +60,27 @@ export default function Navbar({ currentPath, navigate }) {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="group flex flex-col cursor-pointer"
-          >
-            <span className="font-serif text-2xl sm:text-3xl tracking-wider text-[#2B211D] font-bold group-hover:text-[#E94B35] transition-colors">
-              SANTO MARE
-            </span>
-            <span className="text-[10px] tracking-widest text-[#2B211D]/70 uppercase font-sans font-medium -mt-1">
-              Cuisine Côtière · Marseille
-            </span>
-          </a>
+          <div className="shrink-0 mr-8 lg:mr-16">
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="group flex flex-col cursor-pointer"
+            >
+              <span className="font-serif text-2xl sm:text-3xl tracking-wider text-[#2B211D] font-bold group-hover:text-[#E94B35] transition-colors">
+                SANTO MARE
+              </span>
+              <span className="text-[10px] tracking-widest text-[#2B211D]/70 uppercase font-sans font-medium -mt-1">
+                Cuisine Côtière · Marseille
+              </span>
+            </a>
+          </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7 lg:gap-9">
+          <nav className="hidden md:flex items-center justify-center flex-1 gap-8 lg:gap-11 px-4">
             {navLinks.map((link) => {
               const isActive = currentPath === link.path;
               return (
@@ -86,7 +88,7 @@ export default function Navbar({ currentPath, navigate }) {
                   key={link.label}
                   href={link.path}
                   onClick={(e) => handleLinkClick(e, link)}
-                  className={`relative text-xs lg:text-[13px] tracking-widest uppercase font-semibold transition-colors duration-200 py-1 ${
+                  className={`relative text-xs lg:text-[13px] tracking-widest uppercase font-semibold transition-colors duration-200 py-1 whitespace-nowrap ${
                     isActive
                       ? 'text-[#E94B35]'
                       : 'text-[#2B211D]/85 hover:text-[#E94B35]'
@@ -102,7 +104,7 @@ export default function Navbar({ currentPath, navigate }) {
           </nav>
 
           {/* Desktop Action Button */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3 shrink-0 ml-8 lg:ml-12">
             <button
               onClick={() => {
                 navigate('/book-a-table');
