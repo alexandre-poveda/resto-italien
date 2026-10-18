@@ -103,18 +103,8 @@ export default function Navbar({ currentPath, navigate }) {
             })}
           </nav>
 
-          {/* Desktop Action Button & Gestionnaire */}
+          {/* Desktop Action Button */}
           <div className="hidden md:flex items-center gap-3 shrink-0 ml-8 lg:ml-12">
-            <button
-              onClick={() => {
-                navigate('/gestionnaire');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="px-3 py-2 text-xs font-semibold text-[#2B211D]/60 hover:text-[#E94B35] hover:bg-[#2B211D]/5 rounded-full transition-colors flex items-center gap-1.5"
-              title="Accéder à l'espace gestionnaire pour modifier la carte et les événements"
-            >
-              <span>Gestion</span>
-            </button>
             <button
               onClick={() => {
                 navigate('/book-a-table');

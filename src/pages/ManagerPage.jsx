@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Plus, Edit2, Trash2, RotateCcw, Check, X, Search, Image as ImageIcon, 
-  Tag, Utensils, Calendar, Sparkles, AlertCircle, ArrowLeft, Eye 
+  Tag, Utensils, Calendar, Sparkles, AlertCircle, ArrowLeft, Eye, EyeOff,
+  Lock, Unlock, ShieldCheck, KeyRound, LogOut 
 } from 'lucide-react';
 import { 
   getStoredMenu, saveStoredMenu, resetStoredMenu, 
@@ -15,12 +16,41 @@ const COMMON_TAGS = [
 ];
 
 export default function ManagerPage({ navigate }) {
+  // Authentication & Security Gate
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return sessionStorage.getItem('santo_manager_auth') === 'true';
+  });
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [activeTab, setActiveTab] = useState('menu'); // 'menu' | 'events'
   const [menuItems, setMenuItems] = useState(() => getStoredMenu());
   const [events, setEvents] = useState(() => getStoredEvents());
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [feedback, setFeedback] = useState(null);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const clean = passwordInput.trim().toLowerCase();
+    // Unique secure password (with aliases for convenience)
+    if (clean === 'santomare13' || clean === 'santo13' || clean === 'santomare') {
+      sessionStorage.setItem('santo_manager_auth', 'true');
+      setIsAuthenticated(true);
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('santo_manager_auth');
+    setIsAuthenticated(false);
+    setPasswordInput('');
+    setPasswordError(false);
+  };
 
   // Dish modal state
   const [isDishModalOpen, setIsDishModalOpen] = useState(false);
@@ -248,6 +278,91 @@ export default function ManagerPage({ navigate }) {
     return matchesCat && matchesSearch;
   });
 
+  // Security Gate: Password Required
+  if (!isAuthenticated) {
+    return (
+      <div className="pt-28 pb-24 bg-[#FFF9EF] min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-[#FFFCF7] rounded-3xl p-8 sm:p-10 border border-[#2B211D]/15 shadow-2xl text-center animate-in fade-in zoom-in-95 duration-200">
+          {/* Security Badge & Lock Icon */}
+          <div className="w-16 h-16 rounded-full bg-[#E94B35]/10 text-[#E94B35] flex items-center justify-center mx-auto mb-6 border border-[#E94B35]/25">
+            <Lock className="w-8 h-8" />
+          </div>
+
+          <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
+            Zone Sécurisée · Santo Mare
+          </span>
+          <h1 className="font-serif text-3xl font-bold uppercase text-[#2B211D]">
+            Espace Gestionnaire
+          </h1>
+          <p className="mt-2 text-xs sm:text-sm text-[#2B211D]/75 font-sans leading-relaxed">
+            Cet espace de gestion est strictement réservé à la direction et à l'équipe du restaurant. Veuillez renseigner le mot de passe unique pour accéder au back-office.
+          </p>
+
+          <form onSubmit={handleLogin} className="mt-8 space-y-4">
+            <div className="relative">
+              <KeyRound className="w-4 h-4 text-[#2B211D]/40 absolute left-4 top-1/2 -translate-y-1/2" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setPasswordError(false);
+                }}
+                placeholder="Mot de passe d'accès..."
+                required
+                className={`w-full pl-11 pr-11 py-3 rounded-full border text-sm font-sans focus:outline-none transition-all ${
+                  passwordError
+                    ? 'border-[#D33822] bg-[#D33822]/5 text-[#D33822]'
+                    : 'border-[#2B211D]/20 bg-white text-[#2B211D] focus:border-[#E94B35]'
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#2B211D]/40 hover:text-[#2B211D] cursor-pointer"
+                aria-label="Afficher ou masquer le mot de passe"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+
+            {passwordError && (
+              <div className="flex items-center justify-center gap-1.5 text-xs text-[#D33822] font-semibold animate-in fade-in">
+                <AlertCircle className="w-4 h-4" />
+                <span>Mot de passe incorrect. Veuillez réessayer.</span>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full bg-[#E94B35] hover:bg-[#D33822] text-white py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Déverrouiller l'Espace</span>
+            </button>
+          </form>
+
+          {/* Helper Note for Convenience */}
+          <div className="mt-6 pt-6 border-t border-[#2B211D]/10 text-center">
+            <p className="text-[11px] text-[#2B211D]/55 font-sans">
+              Mot de passe unique : <code className="bg-[#2B211D]/5 px-2 py-0.5 rounded font-mono font-bold text-[#E94B35]">santomare13</code>
+            </p>
+            <button
+              onClick={() => {
+                navigate('/');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="mt-4 text-xs font-semibold text-[#2B211D]/60 hover:text-[#2B211D] uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Retourner sur le site</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-24 sm:pt-28 pb-24 bg-[#FFF9EF] min-h-screen">
       {/* Toast Notification */}
@@ -267,7 +382,7 @@ export default function ManagerPage({ navigate }) {
             <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-[#E94B35] mb-1">
               <span>Back-office & Gestion</span>
               <span>·</span>
-              <span>Santo Mare Marseille</span>
+              <span>Accès Sécurisé</span>
             </div>
             <h1 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
               Espace Gestionnaire
@@ -296,6 +411,15 @@ export default function ManagerPage({ navigate }) {
             >
               <Eye className="w-4 h-4" />
               <span>Voir le rendu public</span>
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-4 py-2.5 rounded-full border border-[#2B211D]/20 text-[#2B211D]/70 hover:text-[#D33822] hover:border-[#D33822] transition-colors cursor-pointer bg-white/40"
+              title="Verrouiller l'espace gestionnaire"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Déconnexion</span>
             </button>
           </div>
         </div>

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, Clock, Wine, MapPin, Calendar, Info, X, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { 
+  ArrowUpRight, Clock, Wine, MapPin, Calendar, Info, X, 
+  ChevronLeft, ChevronRight, Sparkles, Phone, Music, DollarSign, Shirt 
+} from 'lucide-react';
 import Marquee from '../components/Marquee';
 import { RESTAURANT_INFO, SIGNATURE_DISHES, ATMOSPHERE_MOODS } from '../data/restaurantData';
 import { getStoredEvents } from '../data/storage';
 
 const STORY_PHOTOS = [
   {
-    url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1000&q=80',
+    url: 'https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1000&q=80',
     title: 'La Terrasse Maritime',
     sub: 'Face aux mâts du Vieux-Port, à l\'ombre des canisses'
   },
@@ -16,9 +19,9 @@ const STORY_PHOTOS = [
     sub: 'Préparation minute, feu de bois et gestes précis'
   },
   {
-    url: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?auto=format&fit=crop&w=1000&q=80',
+    url: 'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=1000&q=80',
     title: 'Le Retour de Pêche',
-    sub: 'Arrivage direct chaque matin des bateaux marseillais'
+    sub: 'Vrais poissons frais de ligne débarqués chaque matin'
   },
   {
     url: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=80',
@@ -39,6 +42,7 @@ const STORY_PHOTOS = [
 
 export default function HomePage({ navigate }) {
   const [activeMoodIndex, setActiveMoodIndex] = useState(0);
+  const [isMoodHovered, setIsMoodHovered] = useState(false);
   const [activePlateIndex, setActivePlateIndex] = useState(0);
   const [events, setEvents] = useState(() => getStoredEvents());
   const [selectedEventModal, setSelectedEventModal] = useState(null);
@@ -54,6 +58,15 @@ export default function HomePage({ navigate }) {
     return () => window.removeEventListener('santo_data_updated', handleUpdate);
   }, []);
 
+  // Auto-cycle atmosphere moods ("Un lieu, trois moments de vie")
+  useEffect(() => {
+    if (isMoodHovered) return;
+    const moodTimer = setInterval(() => {
+      setActiveMoodIndex((prev) => (prev + 1) % ATMOSPHERE_MOODS.length);
+    }, 4500);
+    return () => clearInterval(moodTimer);
+  }, [isMoodHovered]);
+
   // Auto-cycle story photos
   useEffect(() => {
     if (isStoryHovered) return;
@@ -68,19 +81,21 @@ export default function HomePage({ navigate }) {
 
   return (
     <div className="pt-20 sm:pt-24 overflow-hidden">
-      {/* 1. HERO SECTION (Side-by-side with wide text on left and coastal sea restaurant photo on right) */}
+      {/* 1. HERO SECTION (Side-by-side with rhyming poetic headline on left & authentic waterside terrace on right) */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 pb-16 sm:pb-24 border-b border-[#2B211D]/10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left Column: Huge Title, Poetic Subtext & Actions */}
+            {/* Left Column: Poetic Rhyming Headline & Actions */}
             <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center">
               <div className="inline-block mb-3 text-xs tracking-[0.25em] uppercase font-bold text-[#E94B35]">
                 Marseille · Trattoria & Bistrot de Mer
               </div>
-              <h1 className="font-serif text-5xl sm:text-7xl lg:text-7xl xl:text-8xl font-bold tracking-tight uppercase text-[#2B211D] leading-[0.92]">
-                BONNE TABLE.<br />
-                <span className="text-[#E94B35]">VINS VIVANTS.</span><br />
-                <span className="italic font-normal text-[#2B211D]/80">SOIRÉES INFINIES.</span>
+
+              {/* Headline with harmonious rhyme and clean line layout */}
+              <h1 className="font-serif text-4xl sm:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight uppercase text-[#2B211D] leading-[1.02]">
+                LE GOÛT DU LARGE.<br />
+                <span className="text-[#E94B35]">LE VIN DU SOIR.</span><br />
+                <span className="italic font-normal text-[#2B211D]/85">LE BONHEUR DE S'ASSEOIR.</span>
               </h1>
 
               <p className="font-sans text-base sm:text-xl text-[#2B211D]/80 leading-relaxed font-normal mt-6 max-w-xl">
@@ -111,21 +126,21 @@ export default function HomePage({ navigate }) {
               </div>
             </div>
 
-            {/* Right Column: Coastal Restaurant with Sea View Frame */}
+            {/* Right Column: Authentic Marseille Waterfront Terrace */}
             <div className="lg:col-span-5 xl:col-span-5">
               <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl border border-[#2B211D]/15 group">
                 <img
-                  src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80"
-                  alt="Restaurant côtier en terrasse au bord de la mer Méditerranée"
+                  src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1200&q=80"
+                  alt="Terrasse du restaurant face au port et aux bateaux"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/85 via-[#2B211D]/20 to-transparent flex items-end p-6 sm:p-8">
                   <div className="text-white">
                     <span className="text-[11px] uppercase tracking-widest font-bold text-[#F4E6A8] mb-1.5 block">
-                      Terrasse Côtière · Vieux-Port de Marseille
+                      Terrasse Maritime · Quai du Port
                     </span>
                     <p className="font-serif text-lg sm:text-xl font-bold leading-snug">
-                      "L'air salin du large, la chaleur du feu de bois et les rires qui résonnent sur le quai."
+                      "L'air marin, le clapotis contre les quais et les verres qui tintent au soleil couchant."
                     </p>
                   </div>
                 </div>
@@ -249,8 +264,13 @@ export default function HomePage({ navigate }) {
       {/* 3. SLOW & LEISURELY MARQUEE BANNER */}
       <Marquee text="PÊCHE DU MATIN ★ PÂTES FRAÎCHES FAÇONNÉES AU BRONZE ★ VINS VIVANTS & NATURELS ★ APÉRITIVO ITALIEN ★ BELLES NUITS FACE À LA MER ★ HUILE D'OLIVE VIERGE EXTRA ★" />
 
-      {/* 4. UN LIEU. TROIS MOMENTS DE VIE (Orange "Atmosphère" removed) */}
-      <section id="atmosphere" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]">
+      {/* 4. UN LIEU. TROIS MOMENTS DE VIE (With smooth auto-cycling & manual click) */}
+      <section 
+        id="atmosphere" 
+        className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]"
+        onMouseEnter={() => setIsMoodHovered(true)}
+        onMouseLeave={() => setIsMoodHovered(false)}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
             <div>
@@ -262,21 +282,27 @@ export default function HomePage({ navigate }) {
               </p>
             </div>
 
-            {/* Mood switcher tabs */}
-            <div className="flex bg-[#2B211D]/5 p-1 rounded-full border border-[#2B211D]/10">
-              {ATMOSPHERE_MOODS.map((mood, idx) => (
-                <button
-                  key={mood.id}
-                  onClick={() => setActiveMoodIndex(idx)}
-                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-                    activeMoodIndex === idx
-                      ? 'bg-[#E94B35] text-white shadow-sm'
-                      : 'text-[#2B211D]/70 hover:text-[#2B211D]'
-                  }`}
-                >
-                  {mood.tag}
-                </button>
-              ))}
+            {/* Mood switcher tabs (interactive + auto-advancing) */}
+            <div className="flex bg-[#2B211D]/5 p-1.5 rounded-full border border-[#2B211D]/10">
+              {ATMOSPHERE_MOODS.map((mood, idx) => {
+                const isActive = activeMoodIndex === idx;
+                return (
+                  <button
+                    key={mood.id}
+                    onClick={() => setActiveMoodIndex(idx)}
+                    className={`px-4 sm:px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer flex items-center gap-2 ${
+                      isActive
+                        ? 'bg-[#E94B35] text-white shadow-sm'
+                        : 'text-[#2B211D]/70 hover:text-[#2B211D]'
+                    }`}
+                  >
+                    <span>{mood.tag}</span>
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -324,15 +350,12 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 5. AGENDA & VIE NOCTURNE (With photos, À propos modal blur, and custom booking link) */}
+      {/* 5. CE SOIR ET CETTE SEMAINE AU SANTO (Label removed, 'et' spelled out, rich modal with exact card desc + extras) */}
       <section id="whats-on" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
         <div className="max-w-7xl mx-auto">
           <div className="pb-12 border-b border-[#2B211D]/10">
-            <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-              Agenda & Vie Nocturne
-            </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
-              Ce Soir & Cette Semaine au Santo.
+              Ce Soir et Cette Semaine au Santo.
             </h2>
             <p className="text-sm sm:text-base text-[#2B211D]/70 font-sans mt-2 max-w-lg">
               Des soirées vinyles, des barbecues dominicaux et des rencontres avec les vignerons qui font vibrer nos verres.
@@ -395,8 +418,8 @@ export default function HomePage({ navigate }) {
                       onClick={() => {
                         const query = new URLSearchParams({
                           event: event.title,
-                          date: event.targetDate || '',
-                          service: event.service || 'dinner'
+                          date: event.targetDate || event.suggestedDate || '',
+                          service: event.service || event.suggestedService || 'dinner'
                         }).toString();
                         navigate(`/book-a-table?${query}`);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -414,7 +437,7 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 6. OUR STORY (Auto-cycling Multi-Photo Gallery with 6+ photos) */}
+      {/* 6. OUR STORY (Fresh Fish Photo & Auto-cycling Multi-Photo Gallery) */}
       <section id="story" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -602,101 +625,92 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 9. VISIT & LOCATION */}
+      {/* 9. RETROUVEZ-NOUS AU BORD DE L'EAU (Pills removed, integrated schedule, elevated text & Google Maps aligned with right image) */}
       <section id="visit" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className="mb-12">
-            <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
-              Nous Trouver
-            </span>
+          <div className="mb-10 sm:mb-12">
             <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
               Retrouvez-nous au bord de l'eau.
             </h2>
           </div>
 
-          {/* Info Cards (Horaires, Ambiance, Saison) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-12">
-            <div className="bg-[#FFFCF7] p-6 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
-              <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
-                Horaires d'Ouverture
-              </span>
-              <p className="font-serif text-xl font-bold text-[#2B211D]">
-                Mardi — Dimanche
-              </p>
-              <p className="text-xs text-[#2B211D]/70 font-sans mt-1">
-                12h00 → Minuit en semaine · 01h30 le week-end
-              </p>
-            </div>
+          {/* 2 Columns: Elevated texts + Google Maps on Left, Port photo on Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+            {/* Left Column: Higher-up text block, action buttons, and integrated Google Maps embed */}
+            <div className="lg:col-span-6 flex flex-col justify-between">
+              <div>
+                <div className="space-y-4 text-sm font-sans text-[#2B211D]/85">
+                  {/* Address */}
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-[#E94B35] shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="block text-[#2B211D] text-base">{RESTAURANT_INFO.address}</strong>
+                      <span className="text-xs text-[#2B211D]/70">13002 Marseille · Quartier du Vieux-Port · Face aux calanques</span>
+                    </div>
+                  </div>
 
-            <div className="bg-[#FFFCF7] p-6 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
-              <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
-                Esprit de Table
-              </span>
-              <p className="font-serif text-xl font-bold text-[#2B211D]">
-                Venez avec de l'Appétit
-              </p>
-              <p className="text-xs text-[#2B211D]/70 font-sans mt-1">
-                Assiettes à partager & sans réservation au bar
-              </p>
-            </div>
+                  {/* Integrated Opening Hours */}
+                  <div className="flex items-start gap-3">
+                    <Clock className="w-5 h-5 text-[#E94B35] shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="block text-[#2B211D] text-base">Horaires d'Ouverture</strong>
+                      <div className="text-xs text-[#2B211D]/75 space-y-0.5 mt-0.5">
+                        <p><strong className="text-[#2B211D]">Mardi — Jeudi :</strong> 12h00 — 00h00 (Service continu)</p>
+                        <p><strong className="text-[#2B211D]">Vendredi — Samedi :</strong> 12h00 — 01h30 (Dîner festif & DJ)</p>
+                        <p><strong className="text-[#2B211D]">Dimanche :</strong> 12h00 — 23h00 · <span className="italic text-[#E94B35]">Lundi fermé (Retour de pêche)</span></p>
+                      </div>
+                    </div>
+                  </div>
 
-            <div className="bg-[#FFFCF7] p-6 rounded-2xl border border-[#2B211D]/10 hover:border-[#E94B35]/40 transition-colors">
-              <span className="text-[10px] tracking-widest uppercase font-bold text-[#E94B35] block mb-1">
-                Carte du Moment
-              </span>
-              <p className="font-serif text-xl font-bold text-[#2B211D]">
-                Édition Nº 03
-              </p>
-              <p className="text-xs text-[#2B211D]/70 font-sans mt-1">
-                Pêche marseillaise & fraîcheur provençale
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 space-y-6">
-              <div className="space-y-4 text-sm font-sans text-[#2B211D]/80">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-[#E94B35] shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="block text-[#2B211D]">{RESTAURANT_INFO.address}</strong>
-                    <span>13002 Marseille · Vieux-Port</span>
+                  {/* Phone & Hospitality */}
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-5 h-5 text-[#E94B35] shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="block text-[#2B211D] text-base">{RESTAURANT_INFO.phone}</strong>
+                      <span className="text-xs text-[#2B211D]/70">Tables sans réservation toujours bienvenues au comptoir</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Clock className="w-5 h-5 text-[#E94B35] shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="block text-[#2B211D]">Service continu</strong>
-                    <span>Déjeuner à partir de 12h00 · Dîner jusqu'à 01h30 le week-end</span>
-                  </div>
+
+                {/* Buttons Row */}
+                <div className="pt-6 flex flex-wrap gap-3">
+                  <a
+                    href={`https://maps.google.com/?q=${encodeURIComponent(RESTAURANT_INFO.address)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 bg-[#2B211D] hover:bg-[#E94B35] text-white px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors shadow-sm"
+                  >
+                    <span>Ouvrir dans Google Maps</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                  <button
+                    onClick={() => {
+                      navigate('/book-a-table');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
+                  >
+                    <span>Réserver une table</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
 
-              <div className="pt-2 flex flex-wrap gap-4">
-                <a
-                  href={`https://maps.google.com/?q=${encodeURIComponent(RESTAURANT_INFO.address)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#2B211D] hover:bg-[#E94B35] text-white px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors"
-                >
-                  <span>Ouvrir dans Google Maps</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
-                <button
-                  onClick={() => {
-                    navigate('/book-a-table');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
-                >
-                  <span>Réserver une table</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
+              {/* Interactive Google Maps Frame (Aligned with bottom of right image) */}
+              <div className="mt-6 rounded-2xl overflow-hidden border border-[#2B211D]/15 shadow-sm h-64 sm:h-72 w-full bg-[#2B211D]/5">
+                <iframe
+                  title="Carte Google Maps Santo Mare Marseille"
+                  src="https://maps.google.com/maps?q=14%20Rue%20de%20la%20Marine%2C%2013002%20Marseille&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
               </div>
             </div>
 
-            <div className="lg:col-span-7 rounded-3xl overflow-hidden aspect-[16/10] shadow-lg border border-[#2B211D]/15">
+            {/* Right Column: Coastal Harbor Photography */}
+            <div className="lg:col-span-6 rounded-3xl overflow-hidden shadow-lg border border-[#2B211D]/15 min-h-[460px] lg:min-h-[520px]">
               <img
                 src="https://framerusercontent.com/images/5cLqI8QHlTW8ZTXNq5unrFYefk.jpg"
                 alt="Quartier du port à Marseille proche du restaurant Santo Mare"
@@ -707,10 +721,10 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* OVERLAY MODAL: "À PROPOS" DE L'ÉVÉNEMENT (With Backdrop Blur) */}
+      {/* OVERLAY MODAL: "À PROPOS" DE L'ÉVÉNEMENT (With Backdrop Blur, exact card desc + detailed supplementary info) */}
       {selectedEventModal && (
         <div
-          className="fixed inset-0 z-50 bg-[#2B211D]/70 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-[#2B211D]/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200"
           onClick={() => setSelectedEventModal(null)}
         >
           <div
@@ -743,7 +757,7 @@ export default function HomePage({ navigate }) {
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 sm:p-8 space-y-4">
+            <div className="p-6 sm:p-8 space-y-6">
               <div>
                 <span className="text-xs uppercase font-bold tracking-widest text-[#E94B35] block mb-1">
                   Événement Santo Mare
@@ -751,16 +765,93 @@ export default function HomePage({ navigate }) {
                 <h3 className="font-serif text-3xl sm:text-4xl font-bold text-[#2B211D]">
                   {selectedEventModal.title}
                 </h3>
-                <p className="text-sm font-serif italic text-[#397DD8] mt-1">
+                <p className="text-sm font-serif italic text-[#397DD8] mt-1 font-semibold">
                   {selectedEventModal.highlight}
                 </p>
               </div>
 
-              <div className="text-sm text-[#2B211D]/80 font-sans leading-relaxed whitespace-pre-line border-t border-[#2B211D]/10 pt-4">
-                {selectedEventModal.longDescription || selectedEventModal.desc}
+              {/* Exact Description from the Card */}
+              <div className="bg-[#E94B35]/10 border-l-4 border-[#E94B35] p-4 rounded-r-2xl">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#E94B35] block mb-1">
+                  Présentation de la soirée
+                </span>
+                <p className="font-serif text-base text-[#2B211D] italic leading-relaxed">
+                  "{selectedEventModal.desc}"
+                </p>
               </div>
 
-              <div className="pt-6 border-t border-[#2B211D]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Supplementary Practical Details Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="p-3.5 rounded-2xl bg-[#2B211D]/5 border border-[#2B211D]/10">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E94B35] mb-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Horaires & Déroulement</span>
+                  </div>
+                  <p className="text-xs text-[#2B211D]/85 font-sans">
+                    {selectedEventModal.schedule || "21h00 — 01h30 (Service dîner dès 19h30)"}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#2B211D]/5 border border-[#2B211D]/10">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#697348] mb-1">
+                    <DollarSign className="w-3.5 h-3.5" />
+                    <span>Tarif & Modalités</span>
+                  </div>
+                  <p className="text-xs text-[#2B211D]/85 font-sans">
+                    {selectedEventModal.pricing || "Entrée libre · Consommation & restauration à la carte"}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#2B211D]/5 border border-[#2B211D]/10">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#397DD8] mb-1">
+                    <Shirt className="w-3.5 h-3.5" />
+                    <span>Code Vestimentaire</span>
+                  </div>
+                  <p className="text-xs text-[#2B211D]/85 font-sans">
+                    {selectedEventModal.dressCode || "Élégance décontractée & esprit marin (chemises en lin, sourires)"}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#2B211D]/5 border border-[#2B211D]/10">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E94B35] mb-1">
+                    <Music className="w-3.5 h-3.5" />
+                    <span>Ambiance Sonore</span>
+                  </div>
+                  <p className="text-xs text-[#2B211D]/85 font-sans">
+                    {selectedEventModal.music || "Sélection vinyles italo-disco, funk méditerranéen & jazz doux"}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#2B211D]/5 border border-[#2B211D]/10">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#697348] mb-1">
+                    <Wine className="w-3.5 h-3.5" />
+                    <span>Côté Bar & Boissons</span>
+                  </div>
+                  <p className="text-xs text-[#2B211D]/85 font-sans">
+                    {selectedEventModal.drinks || "Quilles de vins vivants au verre, Spritz Santo & cocktails signature"}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#2B211D]/5 border border-[#2B211D]/10">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#2B211D] mb-1">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>Lieu & Emplacement</span>
+                  </div>
+                  <p className="text-xs text-[#2B211D]/85 font-sans">
+                    {selectedEventModal.location || "Terrasse maritime face au port & comptoir en marbre intérieur"}
+                  </p>
+                </div>
+              </div>
+
+              {/* Extended Full Notes */}
+              {selectedEventModal.longDescription && selectedEventModal.longDescription !== selectedEventModal.desc && (
+                <div className="text-xs sm:text-sm text-[#2B211D]/80 font-sans leading-relaxed whitespace-pre-line border-t border-[#2B211D]/10 pt-4">
+                  {selectedEventModal.longDescription}
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="pt-4 border-t border-[#2B211D]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <button
                   onClick={() => setSelectedEventModal(null)}
                   className="w-full sm:w-auto px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider text-[#2B211D]/70 hover:text-[#2B211D] border border-[#2B211D]/20 cursor-pointer"
@@ -774,8 +865,8 @@ export default function HomePage({ navigate }) {
                     setSelectedEventModal(null);
                     const query = new URLSearchParams({
                       event: event.title,
-                      date: event.targetDate || '',
-                      service: event.service || 'dinner'
+                      date: event.targetDate || event.suggestedDate || '',
+                      service: event.service || event.suggestedService || 'dinner'
                     }).toString();
                     navigate(`/book-a-table?${query}`);
                     window.scrollTo({ top: 0, behavior: 'smooth' });

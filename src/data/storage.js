@@ -1,7 +1,7 @@
 import { MENU_ITEMS as DEFAULT_MENU, EVENTS as DEFAULT_EVENTS } from './restaurantData';
 
-const MENU_KEY = 'santo_mare_menu_v2';
-const EVENTS_KEY = 'santo_mare_events_v2';
+const MENU_KEY = 'santo_mare_menu_v3';
+const EVENTS_KEY = 'santo_mare_events_v3';
 
 export function getStoredMenu() {
   if (typeof window === 'undefined') return DEFAULT_MENU;
