@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-cream: #FFF9EF;
+  --color-espresso: #2B211D;
+  --color-terracotta: #E94B35;
+  --color-sea-blue: #397DD8;
+  --color-limoncello: #F4E6A8;
+  --color-olive: #697348;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF9EF;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(43, 33, 29, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E94B35;
+}
+
+/* Typography styles */
+.font-editorial {
+  font-family: 'Fraunces', Georgia, serif;
+  font-feature-settings: "liga" 1, "dlig" 1;
+}
+
+.font-garamond {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Sub-pixel text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth fade & transitions */
+.transition-smooth {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle paper texture overlay if desired */
+.bg-cream-texture {
+  background-color: #FFF9EF;
+  background-image: radial-gradient(rgba(43, 33, 29, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}
