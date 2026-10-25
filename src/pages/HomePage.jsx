@@ -81,72 +81,146 @@ export default function HomePage({ navigate }) {
 
   return (
     <div className="pt-20 sm:pt-24 overflow-hidden">
-      {/* 1. HERO SECTION (Side-by-side with rhyming poetic headline on left & authentic waterside terrace on right) */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 pb-16 sm:pb-24 border-b border-[#2B211D]/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left Column: Poetic Rhyming Headline & Actions */}
-            <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center">
-              <div className="inline-block mb-3 text-xs tracking-[0.25em] uppercase font-bold text-[#E94B35]">
-                Marseille · Trattoria & Bistrot de Mer
+      {/* 1. HERO BANNER: Full-width container (w-full), 60% Left Text/Buttons, 40% Right Image */}
+      <section className="relative w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-8 sm:pt-14 pb-14 sm:pb-20 border-b border-[#2B211D]/10 bg-[#FAF7F2] overflow-hidden">
+        
+        {/* Soft atmospheric background accents */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E94B35]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#F4E6A8]/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 xl:gap-16">
+          
+          {/* Left Column (60%): Poetic Rhyming Headline, Narrative & Buttons */}
+          <div className="w-full lg:w-[60%] flex flex-col justify-center space-y-6 sm:space-y-8 z-10">
+            
+            {/* Eyebrow Location Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#2B211D]/15 w-fit shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#E94B35] animate-pulse" />
+              <span className="text-[11px] sm:text-xs tracking-[0.22em] uppercase font-bold text-[#2B211D]">
+                Marseille · Trattoria Côtière & Bistrot de Mer
+              </span>
+            </div>
+
+            {/* Headline with harmonious rhyme and bold maritime typography */}
+            <h1 className="font-serif text-4xl sm:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight uppercase text-[#2B211D] leading-[0.98]">
+              LE GOÛT DU LARGE.<br />
+              <span className="text-[#E94B35]">LE VIN DU SOIR.</span><br />
+              <span className="italic font-normal text-[#2B211D]/85">LE BONHEUR DE S'ASSEOIR.</span>
+            </h1>
+
+            {/* Narrative copy */}
+            <p className="font-sans text-base sm:text-xl text-[#2B211D]/80 leading-relaxed font-normal max-w-2xl">
+              {RESTAURANT_INFO.tagline}
+            </p>
+
+            {/* Micro-perks badges */}
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs text-[#2B211D]/75 font-medium pt-1">
+              <span className="px-3.5 py-1.5 rounded-full bg-white/70 border border-[#2B211D]/10 flex items-center gap-2 shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#E94B35]" />
+                Pêche de Ligne Débarquée le Matin
+              </span>
+              <span className="px-3.5 py-1.5 rounded-full bg-white/70 border border-[#2B211D]/10 flex items-center gap-2 shadow-2xs">
+                <Wine className="w-3.5 h-3.5 text-[#E94B35]" />
+                80+ Vins Vivants & Biodynamie
+              </span>
+              <span className="px-3.5 py-1.5 rounded-full bg-white/70 border border-[#2B211D]/10 flex items-center gap-2 shadow-2xs">
+                <MapPin className="w-3.5 h-3.5 text-[#E94B35]" />
+                Terrasse Vue Vieux-Port
+              </span>
+            </div>
+
+            {/* Interactive Buttons (Les Boutons) */}
+            <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
+              
+              {/* Primary: Réserver une table */}
+              <button
+                onClick={() => {
+                  navigate('/book-a-table');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="inline-flex items-center justify-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-xl cursor-pointer"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>Réserver une table</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+
+              {/* Secondary: Découvrir le menu */}
+              <button
+                onClick={() => {
+                  navigate('/menu');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="inline-flex items-center justify-center gap-2.5 border-2 border-[#2B211D]/20 hover:border-[#2B211D] bg-white/60 hover:bg-white text-[#2B211D] px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-sm cursor-pointer"
+              >
+                <span>Découvrir la carte</span>
+                <ArrowUpRight className="w-4 h-4 text-[#2B211D]/70" />
+              </button>
+
+              {/* Tertiary Link: Carte des vins */}
+              <button
+                onClick={() => {
+                  navigate('/menu');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group px-4 py-2 text-xs uppercase tracking-widest font-semibold text-[#2B211D]/70 hover:text-[#E94B35] transition-colors flex items-center justify-center gap-1.5 underline-offset-8 hover:underline sm:self-center cursor-pointer"
+              >
+                <span>Carte des vins</span>
+                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </button>
+
+            </div>
+
+            {/* Quick Practical Info Strip */}
+            <div className="pt-4 border-t border-[#2B211D]/15 flex flex-wrap items-center gap-6 text-xs text-[#2B211D]/65 font-medium">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-3.5 h-3.5 text-[#E94B35]" />
+                <span>Quai du Port, 13002 Marseille</span>
               </div>
-
-              {/* Headline with harmonious rhyme and clean line layout */}
-              <h1 className="font-serif text-4xl sm:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight uppercase text-[#2B211D] leading-[1.02]">
-                LE GOÛT DU LARGE.<br />
-                <span className="text-[#E94B35]">LE VIN DU SOIR.</span><br />
-                <span className="italic font-normal text-[#2B211D]/85">LE BONHEUR DE S'ASSEOIR.</span>
-              </h1>
-
-              <p className="font-sans text-base sm:text-xl text-[#2B211D]/80 leading-relaxed font-normal mt-6 max-w-xl">
-                {RESTAURANT_INFO.tagline}
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button
-                  onClick={() => {
-                    navigate('/book-a-table');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-transform hover:-translate-y-0.5 active:translate-y-0 shadow-md cursor-pointer"
-                >
-                  <span>Réserver une table</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/menu');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-7 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors cursor-pointer"
-                >
-                  <span>Découvrir le menu</span>
-                  <ArrowUpRight className="w-4 h-4 text-[#2B211D]/60" />
-                </button>
+              <div className="flex items-center gap-2">
+                <Clock className="w-3.5 h-3.5 text-[#E94B35]" />
+                <span>Tous les jours · 12h00—15h00 & 19h00—00h00</span>
               </div>
             </div>
 
-            {/* Right Column: Authentic Marseille Waterfront Terrace */}
-            <div className="lg:col-span-5 xl:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl border border-[#2B211D]/15 group">
-                <img
-                  src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1200&q=80"
-                  alt="Terrasse du restaurant face au port et aux bateaux"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/85 via-[#2B211D]/20 to-transparent flex items-end p-6 sm:p-8">
-                  <div className="text-white">
-                    <span className="text-[11px] uppercase tracking-widest font-bold text-[#F4E6A8] mb-1.5 block">
-                      Terrasse Maritime · Quai du Port
-                    </span>
-                    <p className="font-serif text-lg sm:text-xl font-bold leading-snug">
-                      "L'air marin, le clapotis contre les quais et les verres qui tintent au soleil couchant."
-                    </p>
-                  </div>
+          </div>
+
+          {/* Right Column (40%): Authentic Waterside Terrace on Marseille Harbor */}
+          <div className="w-full lg:w-[40%] flex justify-center items-center">
+            <div className="relative w-full h-[460px] sm:h-[540px] lg:h-[620px] xl:h-[680px] rounded-3xl overflow-hidden shadow-2xl border border-[#2B211D]/15 group bg-[#2B211D]/10">
+              <img
+                src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1400&q=80"
+                alt="Terrasse du restaurant Santo Mare face au Vieux-Port de Marseille"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+              />
+              
+              {/* Subtle top-left badge */}
+              <div className="absolute top-5 left-5 z-10">
+                <div className="bg-[#2B211D]/75 backdrop-blur-md text-white rounded-full px-4 py-1.5 border border-white/10 shadow-lg flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#E94B35]" />
+                  <span className="text-[11px] uppercase tracking-widest font-bold">
+                    Terrasse Quai du Port
+                  </span>
                 </div>
               </div>
+
+              {/* Bottom Glassmorphic Card */}
+              <div className="absolute bottom-5 left-5 right-5 z-10 bg-[#2B211D]/85 backdrop-blur-md text-white rounded-2xl p-5 sm:p-6 border border-white/10 shadow-2xl">
+                <span className="text-[11px] uppercase tracking-widest font-bold text-[#F4E6A8] mb-1.5 block">
+                  Vue Directe sur le Vieux-Port
+                </span>
+                <p className="font-serif text-base sm:text-lg font-bold leading-snug">
+                  "L'air marin, le clapotis contre les quais et les verres qui tintent au soleil couchant."
+                </p>
+                <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between text-xs text-white/70">
+                  <span>Réservation conseillée au coucher du soleil</span>
+                  <span className="text-[#F4E6A8] font-semibold">19h30 — 22h00</span>
+                </div>
+              </div>
+
             </div>
           </div>
+
         </div>
       </section>
 
