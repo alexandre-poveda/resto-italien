@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowUpRight, Sparkles, Users, CheckCircle2, GlassWater, Music, Utensils, Calendar } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { PRIVATE_DINING_PACKAGES, RESTAURANT_INFO } from '../data/restaurantData';
+import BlurRevealTitle from '../components/BlurRevealTitle';
 
 export default function PrivateDiningPage({ navigate }) {
   const [formData, setFormData] = useState({
@@ -48,9 +49,9 @@ export default function PrivateDiningPage({ navigate }) {
           <span className="text-xs uppercase tracking-[0.25em] font-bold text-[#E94B35] block mb-2">
             Invitez Tout le Monde.
           </span>
-          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl font-bold uppercase text-[#2B211D] tracking-tight leading-[0.95]">
+          <BlurRevealTitle as="h1" className="font-serif text-5xl sm:text-7xl lg:text-8xl font-bold uppercase text-[#2B211D] tracking-tight leading-[0.95]">
             Faisons un Plan.
-          </h1>
+          </BlurRevealTitle>
           <p className="mt-4 text-base sm:text-lg text-[#2B211D]/80 font-sans">
             Un déjeuner d'anniversaire au soleil. Un grand dîner de famille qui s'éternise. Une fête d'entreprise face aux flots bleus. Donnez-vous une vraie raison de vous rassembler autour de la même table.
           </p>

@@ -4,6 +4,7 @@ import {
   ChevronLeft, ChevronRight, Sparkles, Phone, Music, DollarSign, Shirt 
 } from 'lucide-react';
 import Marquee from '../components/Marquee';
+import BlurRevealTitle from '../components/BlurRevealTitle';
 import { RESTAURANT_INFO, SIGNATURE_DISHES, ATMOSPHERE_MOODS } from '../data/restaurantData';
 import { getStoredEvents } from '../data/storage';
 
@@ -81,8 +82,8 @@ export default function HomePage({ navigate }) {
 
   return (
     <div className="pt-20 sm:pt-24 overflow-hidden">
-      {/* 1. HERO BANNER: 60% Left Text/Buttons, 40% Right Pure Image */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-14 pb-14 sm:pb-20 border-b border-[#2B211D]/10 bg-[#FAF7F2] overflow-hidden">
+      {/* 1. HERO BANNER: 52% Left Text/Buttons, 48% Right Large Pure Image */}
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-14 sm:pb-20 border-b border-[#2B211D]/10 bg-[#FAF7F2] overflow-hidden">
         
         {/* Soft atmospheric background accents */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E94B35]/5 rounded-full blur-3xl pointer-events-none" />
@@ -90,23 +91,27 @@ export default function HomePage({ navigate }) {
 
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 xl:gap-14">
           
-          {/* Left Column (60%): Poetic Rhyming Headline, Narrative & Buttons */}
-          <div className="w-full lg:w-[60%] flex flex-col justify-center space-y-6 z-10">
+          {/* Left Column: Poetic Rhyming Headline, Narrative & Animated Buttons */}
+          <div className="w-full lg:w-[52%] flex flex-col justify-center space-y-6 z-10">
             
-            {/* Eyebrow Location Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#2B211D]/15 w-fit shadow-sm">
+            {/* Eyebrow Location Pill with exact phrase requested by user */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/85 border border-[#2B211D]/15 w-fit shadow-xs">
               <span className="w-2 h-2 rounded-full bg-[#E94B35] animate-pulse" />
-              <span className="text-[11px] sm:text-xs tracking-[0.22em] uppercase font-bold text-[#2B211D]">
-                Marseille · Trattoria Côtière & Bistrot de Mer
+              <span className="text-[11px] sm:text-xs tracking-[0.2em] uppercase font-bold text-[#2B211D]">
+                Notre restaurant Trattoria côtière et bistro de mer
               </span>
             </div>
 
-            {/* Headline with harmonious rhyme and clean maritime typography */}
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight uppercase text-[#2B211D] leading-[1.02]">
-              LE GOÛT DU LARGE.<br />
-              <span className="text-[#E94B35]">LE VIN DU SOIR.</span><br />
-              <span className="italic font-normal text-[#2B211D]/85">LE BONHEUR DE S'ASSEOIR.</span>
-            </h1>
+            {/* Headline with harmonious rhyme and smooth scroll blur reveal animation */}
+            <BlurRevealTitle
+              as="h1"
+              className="font-serif text-3xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tight uppercase text-[#2B211D] leading-[1.02]"
+              lines={[
+                { text: 'LE GOÛT DU LARGE.', className: '' },
+                { text: 'LE VIN DU SOIR.', className: 'text-[#E94B35]' },
+                { text: "LE BONHEUR DE S'ASSEOIR.", className: 'italic font-normal text-[#2B211D]/85' }
+              ]}
+            />
 
             {/* Narrative copy */}
             <p className="font-sans text-base sm:text-lg text-[#2B211D]/80 leading-relaxed font-normal max-w-xl">
@@ -129,7 +134,7 @@ export default function HomePage({ navigate }) {
               </span>
             </div>
 
-            {/* Interactive Buttons (Les Boutons) */}
+            {/* Interactive Buttons (Les Boutons - with shimmer, hover arrow and active press) */}
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
               
               {/* Primary: Réserver une table */}
@@ -138,11 +143,11 @@ export default function HomePage({ navigate }) {
                   navigate('/book-a-table');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="inline-flex items-center justify-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-md hover:shadow-lg cursor-pointer"
+                className="btn-shimmer group inline-flex items-center justify-center gap-2.5 bg-[#E94B35] hover:bg-[#D33822] text-white px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 shadow-md hover:shadow-xl hover:shadow-[#E94B35]/25 cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Réserver une table</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="w-4 h-4 arrow-icon-hover transition-transform duration-300" />
               </button>
 
               {/* Secondary: Découvrir le menu */}
@@ -151,47 +156,23 @@ export default function HomePage({ navigate }) {
                   navigate('/menu');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="inline-flex items-center justify-center gap-2.5 border border-[#2B211D]/25 hover:border-[#2B211D] bg-white/70 hover:bg-white text-[#2B211D] px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-sm cursor-pointer"
+                className="btn-shimmer group inline-flex items-center justify-center gap-2.5 border-2 border-[#2B211D]/20 hover:border-[#2B211D] bg-white/80 hover:bg-white text-[#2B211D] px-8 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 shadow-xs hover:shadow-md cursor-pointer"
               >
                 <span>Découvrir la carte</span>
-                <ArrowUpRight className="w-4 h-4 text-[#2B211D]/70" />
+                <ArrowUpRight className="w-4 h-4 text-[#2B211D]/70 arrow-icon-hover transition-transform duration-300" />
               </button>
 
-              {/* Tertiary Link: Carte des vins */}
-              <button
-                onClick={() => {
-                  navigate('/menu');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="group px-3 py-2 text-xs uppercase tracking-widest font-semibold text-[#2B211D]/70 hover:text-[#E94B35] transition-colors flex items-center justify-center gap-1.5 underline-offset-8 hover:underline sm:self-center cursor-pointer"
-              >
-                <span>Carte des vins</span>
-                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </button>
-
-            </div>
-
-            {/* Quick Practical Info Strip */}
-            <div className="pt-3 border-t border-[#2B211D]/15 flex flex-wrap items-center gap-6 text-xs text-[#2B211D]/65 font-medium">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#E94B35]" />
-                <span>Quai du Port, 13002 Marseille</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-3.5 h-3.5 text-[#E94B35]" />
-                <span>Tous les jours · 12h00—15h00 & 19h00—00h00</span>
-              </div>
             </div>
 
           </div>
 
-          {/* Right Column (40%): Pure image, strictly without any text or overlay */}
-          <div className="w-full lg:w-[40%] flex justify-center items-center">
-            <div className="relative w-full aspect-[4/5] max-h-[540px] rounded-3xl overflow-hidden shadow-2xl border border-[#2B211D]/15 group bg-[#2B211D]/10">
+          {/* Right Column: Much Bigger Pure Image (without any text or badge) */}
+          <div className="w-full lg:w-[48%] flex justify-center items-center">
+            <div className="relative w-full h-[540px] sm:h-[640px] lg:h-[700px] xl:h-[760px] rounded-3xl overflow-hidden shadow-2xl border border-[#2B211D]/15 group bg-[#2B211D]/10">
               <img
-                src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1400&q=80"
+                src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1600&q=85"
                 alt="Terrasse du restaurant Santo Mare face au Vieux-Port de Marseille"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               />
             </div>
           </div>
@@ -204,9 +185,9 @@ export default function HomePage({ navigate }) {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
             <div>
-              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-[#2B211D]">
+              <BlurRevealTitle as="h2" className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold uppercase text-[#2B211D]">
                 Les Plats de Saison.
-              </h2>
+              </BlurRevealTitle>
               <p className="text-sm sm:text-base text-[#2B211D]/75 font-sans mt-2 max-w-xl">
                 Une sélection d'assiettes emblématiques préparées chaque jour selon le marché et la pêche du matin.
               </p>
@@ -217,10 +198,10 @@ export default function HomePage({ navigate }) {
                 navigate('/menu');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-colors group cursor-pointer"
+              className="btn-shimmer group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2B211D] hover:text-[#E94B35] transition-all px-4 py-2 rounded-full border border-[#2B211D]/15 hover:border-[#E94B35] cursor-pointer"
             >
               <span>Voir toute la carte</span>
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight className="w-4 h-4 arrow-icon-hover transition-transform duration-300" />
             </button>
           </div>
 
@@ -320,9 +301,9 @@ export default function HomePage({ navigate }) {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#2B211D]/10">
             <div>
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
+              <BlurRevealTitle as="h2" className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
                 Un Lieu. Trois Moments de Vie.
-              </h2>
+              </BlurRevealTitle>
               <p className="text-sm sm:text-base text-[#2B211D]/70 font-sans mt-2 max-w-xl">
                 Des premières lueurs du soleil sur les mâts des bateaux jusqu'aux dernières quilles de vin nature partagées dans la fraîcheur de la nuit.
               </p>
@@ -400,9 +381,9 @@ export default function HomePage({ navigate }) {
       <section id="whats-on" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-[#2B211D]/10 bg-[#FFFCF7]">
         <div className="max-w-7xl mx-auto">
           <div className="pb-12 border-b border-[#2B211D]/10">
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
+            <BlurRevealTitle as="h2" className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
               Ce Soir et Cette Semaine au Santo.
-            </h2>
+            </BlurRevealTitle>
             <p className="text-sm sm:text-base text-[#2B211D]/70 font-sans mt-2 max-w-lg">
               Des soirées vinyles, des barbecues dominicaux et des rencontres avec les vignerons qui font vibrer nos verres.
             </p>
@@ -492,9 +473,9 @@ export default function HomePage({ navigate }) {
               <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block">
                 Notre Histoire
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D] leading-tight">
+              <BlurRevealTitle as="h2" className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D] leading-tight">
                 Une table de quartier baignée d'embruns marins.
-              </h2>
+              </BlurRevealTitle>
               <p className="font-sans text-base text-[#2B211D]/80 leading-relaxed">
                 Santo Mare est né d'un amour viscéral pour deux côtes sœurs : le littoral marseillais et la Riviera italienne. Deux terres unies par le sel, l'olivier, l'ail doux et la passion du bon geste.
               </p>
@@ -641,9 +622,9 @@ export default function HomePage({ navigate }) {
             <span className="text-xs uppercase tracking-widest font-bold text-[#E94B35] block mb-2">
               Privatisation & Événements
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
+            <BlurRevealTitle as="h2" className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
               Invitez Tout le Monde.
-            </h2>
+            </BlurRevealTitle>
             <p className="text-sm sm:text-base text-[#2B211D]/75 font-sans mt-3 max-w-lg leading-relaxed">
               Grands anniversaires, retrouvailles de famille, dîners d'équipe et célébrations qui méritent bien plus qu'une simple conversation de groupe.
             </p>
@@ -653,10 +634,10 @@ export default function HomePage({ navigate }) {
                   navigate('/private-dining');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="inline-flex items-center gap-2 bg-[#E94B35] hover:bg-[#D33822] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-colors shadow-sm cursor-pointer"
+                className="btn-shimmer group inline-flex items-center gap-2 bg-[#E94B35] hover:bg-[#D33822] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 shadow-sm hover:shadow-md hover:shadow-[#E94B35]/25 cursor-pointer"
               >
                 <span>Découvrir les formules de privatisation</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="w-4 h-4 arrow-icon-hover transition-transform duration-300" />
               </button>
             </div>
           </div>
@@ -671,14 +652,14 @@ export default function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 9. RETROUVEZ-NOUS AU BORD DE L'EAU (Pills removed, integrated schedule, elevated text & Google Maps aligned with right image) */}
+      {/* 9. RETROUVEZ-NOUS AU BORD DE L'EAU */}
       <section id="visit" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FFF9EF]">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="mb-10 sm:mb-12">
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
+            <BlurRevealTitle as="h2" className="font-serif text-3xl sm:text-5xl font-bold uppercase text-[#2B211D]">
               Retrouvez-nous au bord de l'eau.
-            </h2>
+            </BlurRevealTitle>
           </div>
 
           {/* 2 Columns: Elevated texts + Google Maps on Left, Port photo on Right */}
@@ -725,20 +706,20 @@ export default function HomePage({ navigate }) {
                     href={`https://maps.google.com/?q=${encodeURIComponent(RESTAURANT_INFO.address)}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 bg-[#2B211D] hover:bg-[#E94B35] text-white px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors shadow-sm"
+                    className="btn-shimmer group inline-flex items-center gap-2 bg-[#2B211D] hover:bg-[#E94B35] text-white px-6 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 shadow-sm hover:shadow-md"
                   >
                     <span>Ouvrir dans Google Maps</span>
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="w-4 h-4 arrow-icon-hover transition-transform duration-300" />
                   </a>
                   <button
                     onClick={() => {
                       navigate('/book-a-table');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] text-[#2B211D] px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
+                    className="btn-shimmer group inline-flex items-center gap-2 border border-[#2B211D]/25 hover:border-[#2B211D] bg-white/70 hover:bg-white text-[#2B211D] px-6 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 shadow-xs cursor-pointer"
                   >
                     <span>Réserver une table</span>
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="w-4 h-4 text-[#2B211D]/70 arrow-icon-hover transition-transform duration-300" />
                   </button>
                 </div>
               </div>

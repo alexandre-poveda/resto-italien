@@ -17,9 +17,16 @@ export default function App() {
     return '/';
   });
 
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentPath(window.location.pathname || '/');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        setTimeout(() => setIsTransitioning(false), 50);
+      }, 180);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -28,17 +35,42 @@ export default function App() {
 
   const navigate = (path) => {
     if (path.startsWith('/#')) {
-      // Anchors on home
+      const anchorId = path.replace('/#', '');
       if (currentPath !== '/') {
-        window.history.pushState({}, '', '/');
-        setCurrentPath('/');
+        setIsTransitioning(true);
+        setTimeout(() => {
+          window.history.pushState({}, '', '/');
+          setCurrentPath('/');
+          setIsTransitioning(false);
+          setTimeout(() => {
+            const el = document.getElementById(anchorId);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 120);
+        }, 220);
+      } else {
+        const el = document.getElementById(anchorId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
       }
       return;
     }
 
-    window.history.pushState({}, '', path);
-    setCurrentPath(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (path === currentPath) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // Soft fade out transition
+    setIsTransitioning(true);
+    setTimeout(() => {
+      window.history.pushState({}, '', path);
+      setCurrentPath(path);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      
+      // Soft fade in transition
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 50);
+    }, 220);
   };
 
   // Determine current page based on basePath
@@ -63,8 +95,12 @@ export default function App() {
       {/* Top Fixed Navigation */}
       <Navbar currentPath={currentPath} navigate={navigate} />
 
-      {/* Main Content Area */}
-      <main className="flex-1">
+      {/* Main Content Area with Soft Fade Page Transitions */}
+      <main
+        className={`flex-1 ${
+          isTransitioning ? 'page-transition-exit' : 'page-transition-enter'
+        }`}
+      >
         <PageComponent navigate={navigate} />
       </main>
 

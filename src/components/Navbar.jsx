@@ -110,10 +110,10 @@ export default function Navbar({ currentPath, navigate }) {
                 navigate('/book-a-table');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center gap-2 bg-[#E94B35] text-white px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase hover:bg-[#D33822] transition-all transform hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
+              className="btn-shimmer group inline-flex items-center gap-2 bg-[#E94B35] text-white px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase hover:bg-[#D33822] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 shadow-sm hover:shadow-md hover:shadow-[#E94B35]/25 cursor-pointer"
             >
               <span>Réserver une table</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <ArrowUpRight className="w-3.5 h-3.5 arrow-icon-hover transition-transform duration-300" />
             </button>
           </div>
 
@@ -124,7 +124,7 @@ export default function Navbar({ currentPath, navigate }) {
                 navigate('/book-a-table');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center gap-1.5 bg-[#E94B35] text-white px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wider uppercase"
+              className="btn-shimmer inline-flex items-center gap-1.5 bg-[#E94B35] text-white px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-wider uppercase active:scale-95 transition-all shadow-xs"
             >
               <Calendar className="w-3 h-3" />
               <span>Réserver</span>

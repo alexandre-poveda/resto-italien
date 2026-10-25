@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Calendar, Users, Clock, CheckCircle2, MapPin, Sparkles, AlertCircle, HeartHandshake } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { RESTAURANT_INFO } from '../data/restaurantData';
+import BlurRevealTitle from '../components/BlurRevealTitle';
 
 export default function BookTablePage({ navigate }) {
   const [guests, setGuests] = useState('2');
@@ -77,9 +78,9 @@ export default function BookTablePage({ navigate }) {
           <span className="text-xs uppercase tracking-[0.25em] font-bold text-[#E94B35] block mb-2">
             Votre Table. Notre Maison.
           </span>
-          <h1 className="font-serif text-5xl sm:text-7xl font-bold uppercase text-[#2B211D] tracking-tight leading-[0.95]">
+          <BlurRevealTitle as="h1" className="font-serif text-5xl sm:text-7xl font-bold uppercase text-[#2B211D] tracking-tight leading-[0.95]">
             Prenez Date.
-          </h1>
+          </BlurRevealTitle>
           <p className="mt-4 text-base sm:text-lg text-[#2B211D]/80 font-sans">
             Venez pour le déjeuner. Restez pour le dîner. Prenez le temps des deux. Les réservations sont ouvertes 30 jours à l'avance.
           </p>

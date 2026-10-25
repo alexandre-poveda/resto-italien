@@ -3,6 +3,7 @@ import { ArrowUpRight, Eye, Utensils } from 'lucide-react';
 import { MENU_CATEGORIES } from '../data/restaurantData';
 import { getStoredMenu } from '../data/storage';
 import DishHoverPreview from '../components/DishHoverPreview';
+import BlurRevealTitle from '../components/BlurRevealTitle';
 
 export default function MenuPage({ navigate }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -49,9 +50,9 @@ export default function MenuPage({ navigate }) {
           <span className="text-xs uppercase tracking-[0.25em] font-bold text-[#E94B35] block mb-2">
             Cuisine Côtière & Trattoria de Mer
           </span>
-          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl font-bold uppercase text-[#2B211D] tracking-tight leading-[0.95]">
+          <BlurRevealTitle as="h1" className="font-serif text-5xl sm:text-7xl lg:text-8xl font-bold uppercase text-[#2B211D] tracking-tight leading-[0.95]">
             La Carte Saisonnière.
-          </h1>
+          </BlurRevealTitle>
           <p className="mt-4 text-base sm:text-lg text-[#2B211D]/75 font-sans max-w-2xl">
             Assiettes solaires pensées pour le partage, poissons débarqués au port et pâtes fraîches façonnées chaque matin.
           </p>
